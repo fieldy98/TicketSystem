@@ -169,3 +169,4 @@ H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.Twitter.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.dll
 H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.pdb
+H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.csprojResolveAssemblyReference.cache
