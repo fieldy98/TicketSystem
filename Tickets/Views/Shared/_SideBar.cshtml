@@ -1,0 +1,25 @@
+﻿@model Tickets.ViewModels.TicketsCreateViewModel
+<div class="sidebar" data-color="black">
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a href="@Html.Action("Index", "Tickets")" class="simple-text">
+                Tickets
+            </a>
+        </div>
+        @*<ul class="nav">
+
+            
+         
+                    @foreach (var item in Model.allschools)
+                    {
+                        <li class="active">
+                            <a href="@Html.Action("SchoolTickets", "Tickets",new { selectedSchool = @item.School })">
+                                <i class="pe-7s-graph"></i>
+                                <p>@item.School </p>
+                            </a>
+                        </li>
+                    }
+
+        </ul>*@
+    </div>
+</div>

@@ -1,0 +1,144 @@
+﻿@model Tickets.ViewModels.TicketsCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h1 class="panel-title" style="font-size: 30px;">
+            Search
+        </h1>
+    </div>
+    <hr />
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Site, new SelectList(Model.school.Select(x => x.Site), "Site"),
+                                        "Select a Site",
+                                        new { @class = "form-control", id = "SelectedSite" })
+                        @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div id="Staff">
+                            <select id="SelectASchool" class="form-control">
+                                <option value="">Select a Staff Member</option>
+                            </select>
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div id="Room">
+                            <select id="SelectASchool" class="form-control">
+                                <option value="">Select a Room</option>
+                            </select>
+
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Equipment, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Equipment, new SelectList(Model.createequipment.Select(x => x.Equipment), "Equipment"),
+                                        "Select Equipment",
+                                        new { @class = "form-control", id = "SelectedSite" })
+                        @Html.ValidationMessageFor(model => model.Equipment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nutrition, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Nutrition)
+                            @Html.ValidationMessageFor(model => model.Nutrition, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Keywords", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Issue, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Search" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $("#SelectedSite").on('change', function () {
+        var selectedSite = $(this).val();
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Action("_getTeachers","Tickets")',
+                data: { selectedSite: selectedSite },
+                success: function (data) {
+                    $("#Staff").html(data);
+                },
+                error: function (data) {
+                    $(".errormessage").text('There was an error processing your request.');
+                }
+            });
+
+    });
+
+    $("#SelectedSite").on('change', function () {
+        var school = $(this).val();
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("_getRoom","Search")',
+            data: { selectedSchool: school },
+            success: function (data) {
+                $("#Room").html(data);
+            },
+            error: function (data) {
+                $(".errormessage").text('There was an error processing your request.');
+            }
+        });
+    });
+    </script>
+}

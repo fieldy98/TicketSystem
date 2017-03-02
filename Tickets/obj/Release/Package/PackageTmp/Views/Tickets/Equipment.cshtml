@@ -1,0 +1,41 @@
+﻿@model TicketSystem.ViewModels.TicketsCreateViewModel
+
+
+@{
+    ViewBag.Title = "Equipment";
+}
+<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h1 class="panel-title" style="font-size: 30px;">
+            Assign Techs to Sites
+        </h1>
+    </div>
+    <div class="panel-body">
+        <p>
+            <div class="btn-group">
+                <input type="button" class="btn btn-default" value="Create Equipment" onclick="location.href='@Url.Action("CreateEquipment", "Tickets")'" />
+            </div>
+
+        </p>
+        <div id="myDiv" class="col-xs-12 content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+                <tr>
+                    <th>
+                        Equipment
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.existingequipment)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Equipment, "EditEquipment", new { ID = @item.ID }, new { @style = "color:black;" })<br />
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

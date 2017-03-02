@@ -1,0 +1,87 @@
+﻿@model TicketSystem.ViewModels.TicketsCreateViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Search Results</h2>
+
+<p>
+    <div class="btn-group">
+        <input type="button" class="btn btn-default" value="Today's' Tickets" onclick="location.href='@Url.Action("Index", "Tickets")'" />
+        <input type="button" class="btn btn-default" value="Assigned Tickets" onclick="location.href='@Url.Action("ShowTickets", "Tickets")'" />
+    </div>
+</p>
+<div id="myDiv" class="col-xs-12">
+    <table class="table">
+        <tr>
+            <th class="col-xs-1">
+                Ticket
+            </th>
+            <th class="col-xs-1">
+                School
+            </th>
+            <th class="col-xs-1">
+                User
+            </th>
+            <th class="col-xs-1">
+                Location
+            </th>
+            <th class="col-xs-1">
+                Equipment
+            </th>
+            <th class="col-xs-4">
+                Issue
+            </th>
+            <th class="col-xs-1"></th>
+        </tr>
+
+        @foreach (var item in Model.create)
+        {
+            <tr>
+                <td class="col-xs-1">
+                    @Html.DisplayFor(modelItem => item.TicketNumber)<br />
+                    <small>@Html.DisplayFor(modelItem => item.Time)</small>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Site)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TroubleUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Equipment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Issue)
+                </td>
+                <td>
+                    <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Tickets", new { id = item.TicketNumber })'" />
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+   $('#myList').change(function MyFunction() {
+        var AllTickets = $("#myList").val();
+
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("Index","Tickets")',
+            data: { ShowAll: AllTickets },
+            success: function (data) {
+                $("#myDiv").load(location.href + " #myDiv>*", "");
+            },
+            error: function(){
+
+            }
+        })
+    })
+</script>

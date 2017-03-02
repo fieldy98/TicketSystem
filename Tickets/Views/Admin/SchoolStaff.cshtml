@@ -1,0 +1,54 @@
+﻿@model Tickets.ViewModels.TicketsCreateViewModel
+
+
+@{
+    ViewBag.Title = "TechAssignments";
+}
+
+<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h1 class="panel-title" style="font-size: 30px;">
+            Assign Points of Contact for Sites
+        </h1>
+    </div>
+    <div class="panel-body">
+        <div id="myDiv" class="col-xs-12 content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+                <tr>
+                    <th>
+                        School
+                    </th>
+                    <th>
+                        Point of Contact
+                    </th>
+                    <th>
+                        Point of Contact
+                    </th>
+                    <th>
+                        Point of Contact
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.schoolassignments)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.School, "StaffToEmail", new { selectedSchool = @item.School }, new { @style = "color:black;" })<br />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Poc1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Poc2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Poc3)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

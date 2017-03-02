@@ -1,0 +1,48 @@
+﻿@model Tickets.ViewModels.TicketsCreateViewModel
+
+
+@{
+    ViewBag.Title = "TechAssignments";
+}
+<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h1 class="panel-title" style="font-size: 30px;">
+            Active Techs
+        </h1>
+    </div>
+    <div class="panel-body">
+        <p>
+            <div class="btn-group">
+                <input type="button" class="btn btn-default" value="Create User" onclick="location.href='@Url.Action("Register", "Authentication")'" />
+                <input type="button" class="btn btn-default" value="Deactivated Techs" onclick="location.href='@Url.Action("ShowInactiveTechs", "Admin")'" />
+            </div>
+
+        </p>
+        <div id="myDiv" class="col-xs-12 content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+                <tr>
+                    <th>
+                        Tech
+                    </th>
+                    <th>
+                        Admin
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.techs)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Tech, "Techs", new { selectedTech = @item.TechID }, new { @style = "color:black;" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsAdmin)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

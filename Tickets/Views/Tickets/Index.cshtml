@@ -1,0 +1,265 @@
+﻿@model Tickets.ViewModels.TicketsCreateViewModel
+
+@{
+    ViewBag.Title = DateTime.Now.ToShortDateString();
+}
+<br />
+<div class="visible-sm visible-xs hidden-md col-sm-12">
+    @if (Model.myschools.Any(x => x.School != null))
+    {
+        <div class="col-xs-2">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        My Sites
+                    </h1>
+                </div>
+                <div class="panel-body">
+
+                            @foreach (var item in Model.myschools)
+                            {
+                                    <h6>
+                                        <span class="badge">@item.TicketCount</span> @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School, TechID = @item.TechID }, new { @style = "color:black;" })
+                                    </h6>
+
+                            }
+
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.allschools.Any(x => x.School != null))
+    {
+        <div class="col-xs-10">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        All Sites
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <div class="col-xs-3">
+                        @foreach (var item in Model.allschools.Take(8))
+                        {
+                            <h6>
+                                <span class="badge">@item.TicketCount</span> @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                            </h6>
+                        }
+
+                    </div>
+
+                    <div class="col-xs-3">
+                        @foreach (var item in Model.allschools.Skip(8).Take(8))
+                        {
+                            <h6>
+                                <span class="badge">@item.TicketCount</span> @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                            </h6>
+                        }
+                    </div>
+                    <div class="col-xs-3">
+                        @foreach (var item in Model.allschools.Skip(16).Take(8))
+                        {
+                            <h6>
+                                <span class="badge">@item.TicketCount</span> @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                            </h6>
+                        }
+                    </div>
+                    <div class="col-xs-3">
+                        @foreach (var item in Model.allschools.Skip(24).Take(8))
+                        {
+                            <h6>
+                                <span class="badge">@item.TicketCount</span> @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                            </h6>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="myDiv" class="col-sm-12 col-md-10 content table-responsive table-full-width">
+    <div class="panel">
+        <div class="panel-heading">
+            <h1 class="panel-title" style="font-size: 30px;">
+                Today's Tickets
+            </h1>
+        </div>
+        <div class="panel-body">
+            <table id="myTable" class="table table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1">
+                            Ticket
+                        </th>
+                        <th class="col-xs-1">
+                            School
+                        </th>
+                        <th class="col-xs-1">
+                            User
+                        </th>
+                        <th class="col-xs-1">
+                            Location
+                        </th>
+                        <th class="col-xs-1">
+                            Equipment
+                        </th>
+                        <th class="col-xs-4">
+                            Issue
+                        </th>
+                        <th class="col-xs-1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.indexview)
+                    {
+                        <tr>
+                            <td class="col-xs-1">
+                                @Html.DisplayFor(modelItem => item.TicketNumber)<br />
+                                <small>@Html.DisplayFor(modelItem => item.CreateTime)</small>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Site)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Equipment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Issue)
+                            </td>
+                            <td align="center" valign="middle">
+                                @if (Model.allschools.Any(x => x.School != null))
+                                {
+                                    <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Tickets", new { id = item.TicketNumber })'" />
+                                }
+                                else
+                                {
+                                    <input type="button" class="btn btn-default" value="View" onclick="location.href='@Url.Action("SiteView", "Tickets", new { id = item.TicketNumber })'" />
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="hidden-sm visible-md visible-lg col-md-2">
+    @if (Model.myschools.Any(x => x.School != null))
+    {
+        <div class="panel">
+            <div class="panel-heading">
+                <h1 class="panel-title">
+                    My Sites
+                </h1>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-sm-2">
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.myschools)
+                        {
+                            <tr>
+                                <td class="col-sm-2">
+                                    @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School, TechID = @item.TechID }, new { @style = "color:black;" })
+                                </td>
+                                <td>
+                                    <span class="badge">@item.TicketCount</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    @if (Model.allschools.Any(x => x.School != null))
+    {
+        <div class="panel">
+            <div class="panel-heading">
+                <h1 class="panel-title">
+                    All Sites
+                </h1>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-sm-2">
+
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.allschools)
+                        {
+                            <tr>
+                                <td class="col-sm-2">
+                                    @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                                </td>
+                                <td>
+                                    <span class="badge">@item.TicketCount</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts{
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                lengthMenu: [
+            [20],
+            ['Show all']
+                ],
+                buttons: [
+
+                   'excel', 'pdf',
+                   {
+                       extend: 'print',
+                       title: '',
+                       customize: function (win) {
+                           $(win.document.body)
+                           .css('font-size', '8pt')
+                           $(win.document.body).find('table')
+                           .addClass('compact')
+                           .css('font-size', 'inherit')
+                       }
+                   }
+                ],
+                "bPaginate": false
+            });
+            $("#myTable_filter").addClass("pull-right");
+        });
+    </script>
+}

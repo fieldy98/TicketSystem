@@ -1,0 +1,39 @@
+﻿@model TicketSystem.ViewModels.TicketsCreateViewModel
+
+
+@{
+    ViewBag.Title = "TechAssignments";
+}
+
+<h2>Manage Tech Accounts</h2>
+<br />
+<p>
+    <input type="button" class="btn btn-default" value="Active Techs" onclick="location.href='@Url.Action("ShowTechs", "Admin")'" />
+</p>
+<br />
+<h4>Deactivated Techs</h4>
+<div id="myDiv" class="col-xs-12 content table-responsive table-full-width">
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>
+                Tech
+            </th>
+            <th>
+                Admin
+            </th>
+        </tr>
+
+        @foreach (var item in Model.inactivetechs)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Tech, "Techs", new { selectedTech = @item.TechID }, new { @style = "color:black;" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5d39fdbc837a471ca4ba67f77bfa9365" Name="Diagram1">
+        <EntityTypeShape EntityType="TicketSystemModel.Comment" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.Equipment" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.MailList" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.Schedule" Width="1.5" PointX="2.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.TeacherToRoom" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.Ticket" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.TechLogin" Width="1.5" PointX="8.625" PointY="0.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.ScheduledSchoolsTicket" Width="1.5" PointX="10.5" PointY="0.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.StaffToSite" Width="1.5" PointX="4.875" PointY="0.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.NumberClosed" Width="1.5" PointX="6.75" PointY="5.375" />
+        <EntityTypeShape EntityType="TicketSystemModel.NumberOpened" Width="1.5" PointX="8.75" PointY="5.375" />
+        <EntityTypeShape EntityType="TicketSystemModel.EquipmentCount" Width="1.5" PointX="12.375" PointY="4.25" />
+        <EntityTypeShape EntityType="TicketSystemModel.TechClosed" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.TechOpen" Width="1.5" PointX="12.375" PointY="2.5" />
+        <EntityTypeShape EntityType="TicketSystemModel.ProjectorIssue" Width="1.5" PointX="14.125" PointY="0.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.NumberClosedMonth" Width="1.5" PointX="14.125" PointY="4.5" />
+        <EntityTypeShape EntityType="TicketSystemModel.NumberOpenedMonth" Width="1.5" PointX="14.125" PointY="2.5" />
+        <EntityTypeShape EntityType="TicketSystemModel.Attachment" Width="1.5" PointX="2.75" PointY="2.375" />
+        <EntityTypeShape EntityType="TicketSystemModel.SchoolName" Width="1.5" PointX="8.625" PointY="3.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

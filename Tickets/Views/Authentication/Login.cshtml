@@ -1,0 +1,26 @@
+﻿@model Tickets.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <br />
+    <div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title form-signin-heading text-center" style="font-size:30px;">Log In</h2>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-signin" }))
+            {
+                
+                @Html.ValidationSummary(true, "Login failed. Check your login details.");
+                @Html.TextBoxFor(u => u.Username, new { placeholder = "Username", @class = "form-control", style = "margin-top: 30px; color:black;" })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(x => x.Password, new { placeholder = "Password", @class = "form-control", style = "margin-top: 30px;", type = "password" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <button type="submit" value="Submit" class="btn btn-default" style="margin-top: 20px;">Submit</button>
+            }
+        </div>
+    </div>
+    
+</div> <!-- /container -->

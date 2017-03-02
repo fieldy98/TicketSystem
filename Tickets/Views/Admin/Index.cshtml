@@ -1,0 +1,270 @@
+﻿@model Tickets.ViewModels.TicketsCreateViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<div class="panel">
+    <div class="panel-body">
+        <div class="col-xs-12 col-sm-3">
+            <div id="genrechart" style="max-width: 100%; margin: 0 auto"></div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    
+    <div class="panel-heading">
+        <div class="col-xs-12 col-sm-3">
+            <h1 class="panel-title" style="font-size: 20px;">
+                Closed in the Last Seven Days
+            </h1>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <h1 class="panel-title" style="font-size: 20px;">
+                Open Tickets
+            </h1>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <h1 class="panel-title" style="font-size: 20px;">
+                Projector Tickets for the Last Year
+            </h1>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <h1 class="panel-title" style="font-size: 20px;">
+                Number of Tickets for the Last Year
+            </h1>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-xs-12 col-sm-3" id="closed">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-sm-2">
+                            Tech Name
+                        </th>
+                        <th class="col-sm-2">
+                            Closed
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.techclose)
+                    {
+                        <tr>
+                            <td class="col-sm-2">
+                                @item.Name
+                            </td>
+                            <td class="col-sm-2">
+                                @item.Count
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-3" id="open">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-sm-2">
+                            Tech Name
+                        </th>
+                        <th class="col-sm-2">
+                            Open
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.techopened)
+            {
+                        <tr>
+                            <td class="col-sm-2">
+                                @item.Name
+                            </td>
+                            <td class="col-sm-2">
+                                @item.Count
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-3" id="projector">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-sm-2">
+                            Site
+                        </th>
+                        <th class="col-sm-2">
+                            Count
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.projector)
+            {
+                        <tr>
+                            <td class="col-sm-2">
+                                @item.School
+                            </td>
+                            <td class="col-sm-2">
+                                @item.Count
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-3" id="ticketcount">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-sm-2">
+                            Site
+                        </th>
+                        <th class="col-sm-2">
+                            Count
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.perschool)
+            {
+                        <tr>
+                            <td class="col-sm-2">
+                                @item.School
+                            </td>
+                            <td class="col-sm-2">
+                                @item.Count
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+
+    </div>
+</div>
+
+
+
+
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(function () {
+        Highcharts.chart('container', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Tickets',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Opened and Closed over the last year',
+                x: -20
+            },
+            xAxis: {
+                categories: @Html.Raw(Json.Encode(Model.openedtickets.Select(x => x.Date))),
+                },
+            yAxis: {
+                title: {
+                    text: 'Number of Tickets'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ' Tickets'
+            },
+            credits: {
+                enabled: false
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Opened',
+                data: @Html.Raw(Json.Encode(Model.openedtickets.Select(x => x.Count))),
+            },
+            {
+                name: 'Closed',
+                data: @Html.Raw(Json.Encode(Model.closedtickets.Select(x => x.Count))),
+            }]
+        });
+    });
+    $(function () {
+
+        $(document).ready(function () {
+            var series = @Model.chart.Count;
+            var myData = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Equipment)));
+            var myData2 = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Count)));
+            var mySeries = [];
+            for (var i = 0; i < series; i++)
+            {
+                mySeries.push([myData[i], myData2[i]]);
+            }
+
+            // Build the chart
+            Highcharts.chart('genrechart', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Tickets for Equipment'
+                },
+                subtitle: {
+                    text: 'Created over the last year',
+                    x: -20
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+            style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            }
+                        },
+                        showInLegend: false
+                    },
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Tickets',
+                    colorByPoint: true,
+
+                    data: mySeries
+                }]
+            });
+        });
+    });
+</script>
+    }

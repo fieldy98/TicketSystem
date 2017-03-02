@@ -1,0 +1,5 @@
+﻿@model Tickets.ViewModels.Create
+
+@Html.DropDownListFor(model => model.User, new SelectList(Model.teacher, "ID", "User"),
+                                        "Select a Staff Member",
+                                        new { @class = "form-control", id = "StaffValue" })

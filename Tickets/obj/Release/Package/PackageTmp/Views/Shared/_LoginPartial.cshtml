@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNet.Identity
+@using TicketSystem.EF
+
+@if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                var name = ticket.Name;
+                TicketSystemEntities db = new TicketSystemEntities();
+
+                var tech = db.TechLogins.SingleOrDefault(x => x.Username == name);
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            @*@if (name == "bmcknight" || name == "varriola" || name == "dgellatly" || name == "dwhite")*@
+            @if (tech.IsAdmin == true)
+            {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span style="color:black;" class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" id="AssignTicets" onclick="AssignTickets();">Assign Tickets</a>
+                        </li>
+                        <li>
+                            @Html.ActionLink("Manage Users", "ShowTechs", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Tech Assignments", "TechAssignments", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Points of Contact", "SchoolStaff", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Manage Equipment", "Equipment", "Tickets")
+                        </li>
+                    </ul>
+                </li>
+            }
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tech <span style="color:black;" class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Reports", "Index", "Admin")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Create New", "Create", "Tickets")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Search", "Index", "Search")
+                    </li>
+                    </ul>
+
+
+            </li>
+            <li>
+                @Html.ActionLink(tech.Username, "ChangePassword", "Authentication", new { ID = tech.ID }, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li style="margin-right:20px;">
+                @Html.ActionLink("Log Off", "Logout", "Authentication", routeValues: null, htmlAttributes: new { title = "Manage"})
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Create New", "Create", "Tickets")</li>
+        <li style="margin-right:20px;">@Html.ActionLink("Log in", "Login", "Authentication", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+<script>
+    function AssignTickets() {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("AutoAssign","Admin")',
+                data: {  },
+                success: function (data) {
+                }
+            });
+
+    };
+</script>

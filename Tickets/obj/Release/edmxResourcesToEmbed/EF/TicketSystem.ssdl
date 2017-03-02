@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TicketNumber" Type="int" Nullable="false" />
+    <Property Name="FileLocation" Type="nvarchar(max)" />
+    <Property Name="FileName" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="Comment" Type="nvarchar(max)" />
+    <Property Name="TicketNumber" Type="int" />
+    <Property Name="TechID" Type="int" />
+    <Property Name="OldTicketNumber" Type="int" />
+  </EntityType>
+  <EntityType Name="Equipment">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Equipment" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="MailList">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="School" Type="varchar" MaxLength="255" />
+    <Property Name="Principal" Type="varchar" MaxLength="255" />
+    <Property Name="Clerk" Type="varchar" MaxLength="255" />
+    <Property Name="Librarian" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.Main' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Main">
+    <Key>
+      <PropertyRef Name="RecID" />
+    </Key>
+    <Property Name="RecID" Type="int" Nullable="false" />
+    <Property Name="TicketNo" Type="int" />
+    <Property Name="Initiator" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="ModDate" Type="datetime" />
+    <Property Name="ModTime" Type="datetime" />
+    <Property Name="Creator" Type="nvarchar" MaxLength="50" />
+    <Property Name="CSR" Type="nvarchar" MaxLength="50" />
+    <Property Name="Area" Type="nvarchar" MaxLength="50" />
+    <Property Name="First" Type="nvarchar" MaxLength="50" />
+    <Property Name="Middle" Type="nvarchar" MaxLength="50" />
+    <Property Name="Last" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Dept" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+    <Property Name="OfficeLoc" Type="nvarchar" MaxLength="50" />
+    <Property Name="Priority" Type="nvarchar" MaxLength="50" />
+    <Property Name="BYUNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="SerialNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="EquipDesc" Type="nvarchar(max)" />
+    <Property Name="EquipAffect" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProblemDesc" Type="nvarchar(max)" />
+    <Property Name="ProblemType" Type="nvarchar" MaxLength="50" />
+    <Property Name="ActNeed" Type="nvarchar" MaxLength="50" />
+    <Property Name="EquipLoc" Type="nvarchar" MaxLength="50" />
+    <Property Name="CloseDate" Type="datetime" />
+    <Property Name="TimeSpent" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="School" Type="varchar" MaxLength="255" />
+    <Property Name="TechID" Type="int" />
+    <Property Name="Monday" Type="bit" />
+    <Property Name="Tuesday" Type="bit" />
+    <Property Name="Wednesday" Type="bit" />
+    <Property Name="Thursday" Type="bit" />
+    <Property Name="Friday" Type="bit" />
+  </EntityType>
+  <EntityType Name="StaffToSite">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BadgeNumber" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="255" />
+    <Property Name="LastName" Type="varchar" MaxLength="255" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="JobTitle" Type="varchar" MaxLength="255" />
+    <Property Name="Email" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TeacherToRoom">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BadgeNumber" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="255" />
+    <Property Name="LastName" Type="varchar" MaxLength="255" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="Room" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TechLogins">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="255" />
+    <Property Name="Username" Type="varchar" MaxLength="255" />
+    <Property Name="Password" Type="varchar" MaxLength="255" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsAdmin" Type="bit" />
+  </EntityType>
+  <EntityType Name="Tickets">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+    </Key>
+    <Property Name="TicketNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="TroubleUser" Type="nvarchar(max)" />
+    <Property Name="Location" Type="varchar" MaxLength="255" />
+    <Property Name="Equipment" Type="varchar" MaxLength="255" />
+    <Property Name="Issue" Type="nvarchar(max)" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="CloseTime" Type="datetime" />
+    <Property Name="UserEmail" Type="nvarchar(max)" />
+    <Property Name="TechID" Type="int" />
+    <Property Name="Nutrition" Type="bit" />
+    <Property Name="IsArticle" Type="bit" />
+    <Property Name="OldTicketNumber" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.EquipmentCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="EquipmentCount">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Equipment" Type="varchar" MaxLength="255" />
+    <Property Name="Count" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.NumberClosed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="NumberClosed">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="ThisDate" Type="date" />
+    <Property Name="Closed" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.NumberClosedMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="NumberClosedMonth">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Month" Type="int" />
+    <Property Name="Closed" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.NumberOpened' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="NumberOpened">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="ThisDate" Type="date" />
+    <Property Name="Opened" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.NumberOpenedMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="NumberOpenedMonth">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Month" Type="int" />
+    <Property Name="Opened" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.ProjectorIssues' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProjectorIssues">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="Count" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.ScheduledSchoolsTickets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ScheduledSchoolsTickets">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+    </Key>
+    <Property Name="TicketNumber" Type="int" Nullable="false" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="TroubleUser" Type="nvarchar(max)" />
+    <Property Name="Location" Type="varchar" MaxLength="255" />
+    <Property Name="Equipment" Type="varchar" MaxLength="255" />
+    <Property Name="Issue" Type="nvarchar(max)" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="CloseTime" Type="datetime" />
+    <Property Name="UserEmail" Type="nvarchar(max)" />
+    <Property Name="TechID" Type="int" />
+    <Property Name="Nutrition" Type="bit" />
+    <Property Name="Monday" Type="bit" />
+    <Property Name="Tuesday" Type="bit" />
+    <Property Name="Wednesday" Type="bit" />
+    <Property Name="Thursday" Type="bit" />
+    <Property Name="Friday" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.SchoolNames' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SchoolNames">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.TechClosed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TechClosed">
+    <Key>
+      <PropertyRef Name="Row" />
+    </Key>
+    <Property Name="Row" Type="bigint" Nullable="false" />
+    <Property Name="Tech" Type="varchar" MaxLength="511" />
+    <Property Name="Closed" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TechOpen">
+    <Key>
+      <PropertyRef Name="Row" />
+    </Key>
+    <Property Name="Row" Type="bigint" Nullable="false" />
+    <Property Name="Tech" Type="varchar" MaxLength="511" />
+    <Property Name="Opened" Type="int" />
+  </EntityType>
+  <EntityContainer Name="TicketSystemModelStoreContainer">
+    <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MailList" EntityType="Self.MailList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StaffToSite" EntityType="Self.StaffToSite" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeacherToRoom" EntityType="Self.TeacherToRoom" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TechLogins" EntityType="Self.TechLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Main" EntityType="Self.Main" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Main].[RecID] AS [RecID], 
+    [Main].[TicketNo] AS [TicketNo], 
+    [Main].[Initiator] AS [Initiator], 
+    [Main].[CreateDate] AS [CreateDate], 
+    [Main].[CreateTime] AS [CreateTime], 
+    [Main].[ModDate] AS [ModDate], 
+    [Main].[ModTime] AS [ModTime], 
+    [Main].[Creator] AS [Creator], 
+    [Main].[CSR] AS [CSR], 
+    [Main].[Area] AS [Area], 
+    [Main].[First] AS [First], 
+    [Main].[Middle] AS [Middle], 
+    [Main].[Last] AS [Last], 
+    [Main].[Email] AS [Email], 
+    [Main].[Dept] AS [Dept], 
+    [Main].[Phone] AS [Phone], 
+    [Main].[OfficeLoc] AS [OfficeLoc], 
+    [Main].[Priority] AS [Priority], 
+    [Main].[BYUNo] AS [BYUNo], 
+    [Main].[SerialNo] AS [SerialNo], 
+    [Main].[EquipDesc] AS [EquipDesc], 
+    [Main].[EquipAffect] AS [EquipAffect], 
+    [Main].[ProblemDesc] AS [ProblemDesc], 
+    [Main].[ProblemType] AS [ProblemType], 
+    [Main].[ActNeed] AS [ActNeed], 
+    [Main].[EquipLoc] AS [EquipLoc], 
+    [Main].[CloseDate] AS [CloseDate], 
+    [Main].[TimeSpent] AS [TimeSpent], 
+    [Main].[Status] AS [Status]
+    FROM [dbo].[Main] AS [Main]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="EquipmentCount" EntityType="Self.EquipmentCount" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [EquipmentCount].[ID] AS [ID], 
+    [EquipmentCount].[Equipment] AS [Equipment], 
+    [EquipmentCount].[Count] AS [Count]
+    FROM [dbo].[EquipmentCount] AS [EquipmentCount]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="NumberClosed" EntityType="Self.NumberClosed" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [NumberClosed].[ID] AS [ID], 
+    [NumberClosed].[ThisDate] AS [ThisDate], 
+    [NumberClosed].[Closed] AS [Closed]
+    FROM [dbo].[NumberClosed] AS [NumberClosed]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="NumberClosedMonth" EntityType="Self.NumberClosedMonth" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [NumberClosedMonth].[ID] AS [ID], 
+    [NumberClosedMonth].[Year] AS [Year], 
+    [NumberClosedMonth].[Month] AS [Month], 
+    [NumberClosedMonth].[Closed] AS [Closed]
+    FROM [dbo].[NumberClosedMonth] AS [NumberClosedMonth]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="NumberOpened" EntityType="Self.NumberOpened" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [NumberOpened].[ID] AS [ID], 
+    [NumberOpened].[ThisDate] AS [ThisDate], 
+    [NumberOpened].[Opened] AS [Opened]
+    FROM [dbo].[NumberOpened] AS [NumberOpened]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="NumberOpenedMonth" EntityType="Self.NumberOpenedMonth" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [NumberOpenedMonth].[ID] AS [ID], 
+    [NumberOpenedMonth].[Year] AS [Year], 
+    [NumberOpenedMonth].[Month] AS [Month], 
+    [NumberOpenedMonth].[Opened] AS [Opened]
+    FROM [dbo].[NumberOpenedMonth] AS [NumberOpenedMonth]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProjectorIssues" EntityType="Self.ProjectorIssues" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProjectorIssues].[ID] AS [ID], 
+    [ProjectorIssues].[Site] AS [Site], 
+    [ProjectorIssues].[Count] AS [Count]
+    FROM [dbo].[ProjectorIssues] AS [ProjectorIssues]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ScheduledSchoolsTickets" EntityType="Self.ScheduledSchoolsTickets" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ScheduledSchoolsTickets].[TicketNumber] AS [TicketNumber], 
+    [ScheduledSchoolsTickets].[Site] AS [Site], 
+    [ScheduledSchoolsTickets].[TroubleUser] AS [TroubleUser], 
+    [ScheduledSchoolsTickets].[Location] AS [Location], 
+    [ScheduledSchoolsTickets].[Equipment] AS [Equipment], 
+    [ScheduledSchoolsTickets].[Issue] AS [Issue], 
+    [ScheduledSchoolsTickets].[CreateTime] AS [CreateTime], 
+    [ScheduledSchoolsTickets].[CloseTime] AS [CloseTime], 
+    [ScheduledSchoolsTickets].[UserEmail] AS [UserEmail], 
+    [ScheduledSchoolsTickets].[TechID] AS [TechID], 
+    [ScheduledSchoolsTickets].[Nutrition] AS [Nutrition], 
+    [ScheduledSchoolsTickets].[Monday] AS [Monday], 
+    [ScheduledSchoolsTickets].[Tuesday] AS [Tuesday], 
+    [ScheduledSchoolsTickets].[Wednesday] AS [Wednesday], 
+    [ScheduledSchoolsTickets].[Thursday] AS [Thursday], 
+    [ScheduledSchoolsTickets].[Friday] AS [Friday]
+    FROM [dbo].[ScheduledSchoolsTickets] AS [ScheduledSchoolsTickets]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SchoolNames" EntityType="Self.SchoolNames" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SchoolNames].[ID] AS [ID], 
+    [SchoolNames].[Site] AS [Site]
+    FROM [dbo].[SchoolNames] AS [SchoolNames]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TechClosed" EntityType="Self.TechClosed" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TechClosed].[Row] AS [Row], 
+    [TechClosed].[Tech] AS [Tech], 
+    [TechClosed].[Closed] AS [Closed]
+    FROM [dbo].[TechClosed] AS [TechClosed]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TechOpen" EntityType="Self.TechOpen" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TechOpen].[Row] AS [Row], 
+    [TechOpen].[Tech] AS [Tech], 
+    [TechOpen].[Opened] AS [Opened]
+    FROM [dbo].[TechOpen] AS [TechOpen]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

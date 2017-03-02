@@ -1,0 +1,106 @@
+﻿@model Tickets.ViewModels.RegisterUser
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h1 class="panel-title" style="font-size:30px;">
+            Register User
+        </h1>
+    </div>
+    <hr />
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("First Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Last Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $("#SelectedSite").on('change', function () {
+        var selectedSite = $(this).val();
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Action("_getTeachers","Tickets")',
+                data: { selectedSite: selectedSite },
+                success: function (data) {
+                    $("#Staff").html(data);
+                },
+                error: function (data) {
+                    $(".errormessage").text('There was an error processing your request.');
+                }
+            });
+
+    });
+
+    $("#Staff").on('change', function () {
+        var badge = $("#StaffValue").val();
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("_getRoom","Tickets")',
+            data: { selectedbadge: badge },
+            success: function (data) {
+                $("#Room").html(data);
+            },
+            error: function (data) {
+                $(".errormessage").text('There was an error processing your request.');
+            }
+        });
+    });
+    </script>
+}

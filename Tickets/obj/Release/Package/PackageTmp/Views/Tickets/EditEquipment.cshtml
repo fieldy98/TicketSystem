@@ -1,0 +1,54 @@
+﻿@model TicketSystem.ViewModels.EditEquipment
+
+@{
+    ViewBag.Title = "Equipment";
+}
+
+
+
+<br />
+<div class="panel">
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.ID)
+                <div class="col-xs-12 col-sm-6 form-group">
+                    @Html.Label("Equipment", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Equipment, new { @class = "form-control", id = "StaffValue" })
+
+                        @Html.ValidationMessageFor(model => model.Equipment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 btn-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                        <input value="Delete" class="btn btn-danger" onclick="Delete();" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    function Delete() {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("DeleteEquipment","Tickets")',
+                data: { ID: @Model.ID},
+                success: function (data) {
+                    window.location.href="/Tickets/Equipment";
+                },
+                error: function (data) {
+                    $(".errormessage").text('There was an error processing your request.');
+                }
+            });
+        };
+    </script>

@@ -1,0 +1,104 @@
+﻿@model TicketSystem.ViewModels.StaffToEmail
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h1 class="panel-title" style="font-size: 30px;">
+            @Model.School
+        </h1>
+    </div>
+    <hr />
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h6>
+                    Do not add &#64;pbvusd.net
+                </h6>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.School)
+                <div class="col-xs-12 col-sm-6 form-group">
+                    @Html.Label("Point of Contact", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Principal, new { @class = "form-control", id = "StaffValue" })
+
+                        @Html.ValidationMessageFor(model => model.Principal, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 form-group">
+                    @Html.Label("Point of Contact", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Clerk, new { @class = "form-control", id = "StaffValue" })
+
+                        @Html.ValidationMessageFor(model => model.Clerk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 form-group">
+                    @Html.Label("Point of Contact", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Librarian, new { @class = "form-control", id = "StaffValue" })
+
+                        @Html.ValidationMessageFor(model => model.Librarian, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $("#SelectedSite").on('change', function () {
+        var selectedSite = $(this).val();
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Action("_getTeachers","Tickets")',
+                data: { selectedSite: selectedSite },
+                success: function (data) {
+                    $("#Staff").html(data);
+                },
+                error: function (data) {
+                    $(".errormessage").text('There was an error processing your request.');
+                }
+            });
+
+    });
+
+    $("#Staff").on('change', function () {
+        var badge = $("#StaffValue").val();
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("_getRoom","Tickets")',
+            data: { selectedbadge: badge },
+            success: function (data) {
+                $("#Room").html(data);
+            },
+            error: function (data) {
+                $(".errormessage").text('There was an error processing your request.');
+            }
+        });
+    });
+    </script>
+}
