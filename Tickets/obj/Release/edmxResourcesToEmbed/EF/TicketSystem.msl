@@ -1,15 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="TicketSystemModelStoreContainer" CdmEntityContainer="TicketSystemEntities">
+  <EntityContainerMapping StorageEntityContainer="TicketSystemModelStoreContainer" CdmEntityContainer="TicketsEntities">
+    <EntitySetMapping Name="Attachments">
+      <EntityTypeMapping TypeName="TicketSystemModel.Attachment">
+        <MappingFragment StoreEntitySet="Attachments">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+          <ScalarProperty Name="FileLocation" ColumnName="FileLocation" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Comments">
       <EntityTypeMapping TypeName="TicketSystemModel.Comment">
         <MappingFragment StoreEntitySet="Comments">
-          <ScalarProperty Name="OldTicketNumber" ColumnName="OldTicketNumber" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
           <ScalarProperty Name="Comment1" ColumnName="Comment" />
           <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
           <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="OldTicketNumber" ColumnName="OldTicketNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -46,6 +56,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="StaffToSites">
+      <EntityTypeMapping TypeName="TicketSystemModel.StaffToSite">
+        <MappingFragment StoreEntitySet="StaffToSite">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="BadgeNumber" ColumnName="BadgeNumber" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TeacherToRooms">
       <EntityTypeMapping TypeName="TicketSystemModel.TeacherToRoom">
         <MappingFragment StoreEntitySet="TeacherToRoom">
@@ -58,10 +81,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TechLogins">
+      <EntityTypeMapping TypeName="TicketSystemModel.TechLogin">
+        <MappingFragment StoreEntitySet="TechLogins">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Tickets">
       <EntityTypeMapping TypeName="TicketSystemModel.Ticket">
         <MappingFragment StoreEntitySet="Tickets">
-          <ScalarProperty Name="OldTicketNumber" ColumnName="OldTicketNumber" />
           <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
           <ScalarProperty Name="Site" ColumnName="Site" />
           <ScalarProperty Name="TroubleUser" ColumnName="TroubleUser" />
@@ -74,181 +109,160 @@
           <ScalarProperty Name="TechID" ColumnName="TechID" />
           <ScalarProperty Name="Nutrition" ColumnName="Nutrition" />
           <ScalarProperty Name="IsArticle" ColumnName="IsArticle" />
+          <ScalarProperty Name="OldTicketNumber" ColumnName="OldTicketNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TechLogins">
-      <EntityTypeMapping TypeName="TicketSystemModel.TechLogin">
-        <MappingFragment StoreEntitySet="TechLogins">
-          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Username" ColumnName="Username" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ScheduledSchoolsTickets">
-      <EntityTypeMapping TypeName="TicketSystemModel.ScheduledSchoolsTicket">
-        <MappingFragment StoreEntitySet="ScheduledSchoolsTickets">
-          <ScalarProperty Name="Friday" ColumnName="Friday" />
-          <ScalarProperty Name="Thursday" ColumnName="Thursday" />
-          <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
-          <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
-          <ScalarProperty Name="Monday" ColumnName="Monday" />
-          <ScalarProperty Name="Nutrition" ColumnName="Nutrition" />
-          <ScalarProperty Name="TechID" ColumnName="TechID" />
-          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
-          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+    <EntitySetMapping Name="Details">
+      <EntityTypeMapping TypeName="TicketSystemModel.Detail">
+        <MappingFragment StoreEntitySet="Detail">
+          <ScalarProperty Name="Recid" ColumnName="Recid" />
+          <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-          <ScalarProperty Name="Issue" ColumnName="Issue" />
-          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-          <ScalarProperty Name="Location" ColumnName="Location" />
-          <ScalarProperty Name="TroubleUser" ColumnName="TroubleUser" />
-          <ScalarProperty Name="Site" ColumnName="Site" />
-          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="StaffToSites">
-      <EntityTypeMapping TypeName="TicketSystemModel.StaffToSite">
-        <MappingFragment StoreEntitySet="StaffToSite">
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-          <ScalarProperty Name="Site" ColumnName="Site" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="BadgeNumber" ColumnName="BadgeNumber" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NumberCloseds">
-      <EntityTypeMapping TypeName="TicketSystemModel.NumberClosed">
-        <MappingFragment StoreEntitySet="NumberClosed">
-          <ScalarProperty Name="Closed" ColumnName="Closed" />
-          <ScalarProperty Name="ThisDate" ColumnName="ThisDate" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NumberOpeneds">
-      <EntityTypeMapping TypeName="TicketSystemModel.NumberOpened">
-        <MappingFragment StoreEntitySet="NumberOpened">
-          <ScalarProperty Name="Opened" ColumnName="Opened" />
-          <ScalarProperty Name="ThisDate" ColumnName="ThisDate" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EquipmentCounts">
-      <EntityTypeMapping TypeName="TicketSystemModel.EquipmentCount">
-        <MappingFragment StoreEntitySet="EquipmentCount">
-          <ScalarProperty Name="Count" ColumnName="Count" />
-          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TechCloseds">
-      <EntityTypeMapping TypeName="TicketSystemModel.TechClosed">
-        <MappingFragment StoreEntitySet="TechClosed">
-          <ScalarProperty Name="Closed" ColumnName="Closed" />
-          <ScalarProperty Name="Tech" ColumnName="Tech" />
-          <ScalarProperty Name="Row" ColumnName="Row" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TechOpens">
-      <EntityTypeMapping TypeName="TicketSystemModel.TechOpen">
-        <MappingFragment StoreEntitySet="TechOpen">
-          <ScalarProperty Name="Opened" ColumnName="Opened" />
-          <ScalarProperty Name="Tech" ColumnName="Tech" />
-          <ScalarProperty Name="Row" ColumnName="Row" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectorIssues">
-      <EntityTypeMapping TypeName="TicketSystemModel.ProjectorIssue">
-        <MappingFragment StoreEntitySet="ProjectorIssues">
-          <ScalarProperty Name="Count" ColumnName="Count" />
-          <ScalarProperty Name="Site" ColumnName="Site" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NumberClosedMonths">
-      <EntityTypeMapping TypeName="TicketSystemModel.NumberClosedMonth">
-        <MappingFragment StoreEntitySet="NumberClosedMonth">
-          <ScalarProperty Name="Closed" ColumnName="Closed" />
-          <ScalarProperty Name="Month" ColumnName="Month" />
-          <ScalarProperty Name="Year" ColumnName="Year" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NumberOpenedMonths">
-      <EntityTypeMapping TypeName="TicketSystemModel.NumberOpenedMonth">
-        <MappingFragment StoreEntitySet="NumberOpenedMonth">
-          <ScalarProperty Name="Opened" ColumnName="Opened" />
-          <ScalarProperty Name="Month" ColumnName="Month" />
-          <ScalarProperty Name="Year" ColumnName="Year" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Attachments">
-      <EntityTypeMapping TypeName="TicketSystemModel.Attachment">
-        <MappingFragment StoreEntitySet="Attachments">
-          <ScalarProperty Name="FileName" ColumnName="FileName" />
-          <ScalarProperty Name="FileLocation" ColumnName="FileLocation" />
-          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Creator" ColumnName="Creator" />
+          <ScalarProperty Name="Moddate" ColumnName="Moddate" />
+          <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Mains">
       <EntityTypeMapping TypeName="TicketSystemModel.Main">
         <MappingFragment StoreEntitySet="Main">
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
-          <ScalarProperty Name="CloseDate" ColumnName="CloseDate" />
-          <ScalarProperty Name="EquipLoc" ColumnName="EquipLoc" />
-          <ScalarProperty Name="ActNeed" ColumnName="ActNeed" />
-          <ScalarProperty Name="ProblemType" ColumnName="ProblemType" />
-          <ScalarProperty Name="ProblemDesc" ColumnName="ProblemDesc" />
-          <ScalarProperty Name="EquipAffect" ColumnName="EquipAffect" />
-          <ScalarProperty Name="EquipDesc" ColumnName="EquipDesc" />
-          <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
-          <ScalarProperty Name="BYUNo" ColumnName="BYUNo" />
-          <ScalarProperty Name="Priority" ColumnName="Priority" />
-          <ScalarProperty Name="OfficeLoc" ColumnName="OfficeLoc" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Dept" ColumnName="Dept" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Last" ColumnName="Last" />
-          <ScalarProperty Name="Middle" ColumnName="Middle" />
-          <ScalarProperty Name="First" ColumnName="First" />
-          <ScalarProperty Name="Area" ColumnName="Area" />
-          <ScalarProperty Name="CSR" ColumnName="CSR" />
-          <ScalarProperty Name="Creator" ColumnName="Creator" />
-          <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-          <ScalarProperty Name="ModDate" ColumnName="ModDate" />
-          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="Initiator" ColumnName="Initiator" />
-          <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
           <ScalarProperty Name="RecID" ColumnName="RecID" />
+          <ScalarProperty Name="TicketNo" ColumnName="TicketNo" />
+          <ScalarProperty Name="Initiator" ColumnName="Initiator" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ModDate" ColumnName="ModDate" />
+          <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+          <ScalarProperty Name="Creator" ColumnName="Creator" />
+          <ScalarProperty Name="CSR" ColumnName="CSR" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="First" ColumnName="First" />
+          <ScalarProperty Name="Middle" ColumnName="Middle" />
+          <ScalarProperty Name="Last" ColumnName="Last" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Dept" ColumnName="Dept" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="OfficeLoc" ColumnName="OfficeLoc" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="BYUNo" ColumnName="BYUNo" />
+          <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+          <ScalarProperty Name="EquipDesc" ColumnName="EquipDesc" />
+          <ScalarProperty Name="EquipAffect" ColumnName="EquipAffect" />
+          <ScalarProperty Name="ProblemDesc" ColumnName="ProblemDesc" />
+          <ScalarProperty Name="ProblemType" ColumnName="ProblemType" />
+          <ScalarProperty Name="ActNeed" ColumnName="ActNeed" />
+          <ScalarProperty Name="EquipLoc" ColumnName="EquipLoc" />
+          <ScalarProperty Name="CloseDate" ColumnName="CloseDate" />
+          <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EquipmentCounts">
+      <EntityTypeMapping TypeName="TicketSystemModel.EquipmentCount">
+        <MappingFragment StoreEntitySet="EquipmentCount">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NumberCloseds">
+      <EntityTypeMapping TypeName="TicketSystemModel.NumberClosed">
+        <MappingFragment StoreEntitySet="NumberClosed">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ThisDate" ColumnName="ThisDate" />
+          <ScalarProperty Name="Closed" ColumnName="Closed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NumberClosedMonths">
+      <EntityTypeMapping TypeName="TicketSystemModel.NumberClosedMonth">
+        <MappingFragment StoreEntitySet="NumberClosedMonth">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Closed" ColumnName="Closed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NumberOpeneds">
+      <EntityTypeMapping TypeName="TicketSystemModel.NumberOpened">
+        <MappingFragment StoreEntitySet="NumberOpened">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ThisDate" ColumnName="ThisDate" />
+          <ScalarProperty Name="Opened" ColumnName="Opened" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NumberOpenedMonths">
+      <EntityTypeMapping TypeName="TicketSystemModel.NumberOpenedMonth">
+        <MappingFragment StoreEntitySet="NumberOpenedMonth">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Opened" ColumnName="Opened" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectorIssues">
+      <EntityTypeMapping TypeName="TicketSystemModel.ProjectorIssue">
+        <MappingFragment StoreEntitySet="ProjectorIssues">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ScheduledSchoolsTickets">
+      <EntityTypeMapping TypeName="TicketSystemModel.ScheduledSchoolsTicket">
+        <MappingFragment StoreEntitySet="ScheduledSchoolsTickets">
+          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+          <ScalarProperty Name="TroubleUser" ColumnName="TroubleUser" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+          <ScalarProperty Name="Issue" ColumnName="Issue" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="Nutrition" ColumnName="Nutrition" />
+          <ScalarProperty Name="Monday" ColumnName="Monday" />
+          <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+          <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+          <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+          <ScalarProperty Name="Friday" ColumnName="Friday" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="SchoolNames">
       <EntityTypeMapping TypeName="TicketSystemModel.SchoolName">
         <MappingFragment StoreEntitySet="SchoolNames">
-          <ScalarProperty Name="Site" ColumnName="Site" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TechCloseds">
+      <EntityTypeMapping TypeName="TicketSystemModel.TechClosed">
+        <MappingFragment StoreEntitySet="TechClosed">
+          <ScalarProperty Name="Row" ColumnName="Row" />
+          <ScalarProperty Name="Tech" ColumnName="Tech" />
+          <ScalarProperty Name="Closed" ColumnName="Closed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TechOpens">
+      <EntityTypeMapping TypeName="TicketSystemModel.TechOpen">
+        <MappingFragment StoreEntitySet="TechOpen">
+          <ScalarProperty Name="Row" ColumnName="Row" />
+          <ScalarProperty Name="Tech" ColumnName="Tech" />
+          <ScalarProperty Name="Opened" ColumnName="Opened" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

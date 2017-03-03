@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TicketSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Attachment">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TicketNumber" Type="Int32" Nullable="false" />
+    <Property Name="FileLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FileName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="Comment">
     <Key>
       <PropertyRef Name="ID" />
@@ -41,6 +50,18 @@
     <Property Name="Thursday" Type="Boolean" />
     <Property Name="Friday" Type="Boolean" />
   </EntityType>
+  <EntityType Name="StaffToSite">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BadgeNumber" Type="Int32" />
+    <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="JobTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="TeacherToRoom">
     <Key>
       <PropertyRef Name="ID" />
@@ -51,6 +72,18 @@
     <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Room" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TechLogin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsAdmin" Type="Boolean" />
   </EntityType>
   <EntityType Name="Ticket">
     <Key>
@@ -70,147 +103,18 @@
     <Property Name="IsArticle" Type="Boolean" />
     <Property Name="OldTicketNumber" Type="Int32" />
   </EntityType>
-  <EntityContainer Name="TicketSystemEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Comments" EntityType="Self.Comment" />
-    <EntitySet Name="Equipments" EntityType="Self.Equipment" />
-    <EntitySet Name="MailLists" EntityType="Self.MailList" />
-    <EntitySet Name="Schedules" EntityType="Self.Schedule" />
-    <EntitySet Name="TeacherToRooms" EntityType="Self.TeacherToRoom" />
-    <EntitySet Name="Tickets" EntityType="Self.Ticket" />
-    <EntitySet Name="TechLogins" EntityType="TicketSystemModel.TechLogin" />
-    <EntitySet Name="ScheduledSchoolsTickets" EntityType="TicketSystemModel.ScheduledSchoolsTicket" />
-    <EntitySet Name="StaffToSites" EntityType="TicketSystemModel.StaffToSite" />
-    <EntitySet Name="NumberCloseds" EntityType="TicketSystemModel.NumberClosed" />
-    <EntitySet Name="NumberOpeneds" EntityType="TicketSystemModel.NumberOpened" />
-    <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
-    <EntitySet Name="TechCloseds" EntityType="TicketSystemModel.TechClosed" />
-    <EntitySet Name="TechOpens" EntityType="TicketSystemModel.TechOpen" />
-    <EntitySet Name="ProjectorIssues" EntityType="TicketSystemModel.ProjectorIssue" />
-    <EntitySet Name="NumberClosedMonths" EntityType="TicketSystemModel.NumberClosedMonth" />
-    <EntitySet Name="NumberOpenedMonths" EntityType="TicketSystemModel.NumberOpenedMonth" />
-    <EntitySet Name="Attachments" EntityType="TicketSystemModel.Attachment" />
-    <EntitySet Name="Mains" EntityType="TicketSystemModel.Main" />
-    <EntitySet Name="SchoolNames" EntityType="TicketSystemModel.SchoolName" />
-  </EntityContainer>
-  <EntityType Name="TechLogin">
+  <EntityType Name="Detail">
     <Key>
-      <PropertyRef Name="ID" />
+      <PropertyRef Name="Recid" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="IsActive" Type="Boolean" />
-    <Property Name="IsAdmin" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="ScheduledSchoolsTicket">
-    <Key>
-      <PropertyRef Name="TicketNumber" />
-    </Key>
-    <Property Name="TicketNumber" Type="Int32" Nullable="false" />
-    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="TroubleUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Issue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Recid" Type="Int32" Nullable="false" />
+    <Property Name="TicketNo" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateTime" Type="DateTime" Precision="3" />
-    <Property Name="CloseTime" Type="DateTime" Precision="3" />
-    <Property Name="UserEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="TechID" Type="Int32" />
-    <Property Name="Nutrition" Type="Boolean" />
-    <Property Name="Monday" Type="Boolean" />
-    <Property Name="Tuesday" Type="Boolean" />
-    <Property Name="Wednesday" Type="Boolean" />
-    <Property Name="Thursday" Type="Boolean" />
-    <Property Name="Friday" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="StaffToSite">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BadgeNumber" Type="Int32" />
-    <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="JobTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="NumberClosed">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="ThisDate" Type="DateTime" Precision="0" />
-    <Property Name="Closed" Type="Int32" />
-  </EntityType>
-  <EntityType Name="NumberOpened">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="ThisDate" Type="DateTime" Precision="0" />
-    <Property Name="Opened" Type="Int32" />
-  </EntityType>
-  <EntityType Name="EquipmentCount">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Count" Type="Int32" />
-  </EntityType>
-  <EntityType Name="TechClosed">
-    <Key>
-      <PropertyRef Name="Row" />
-    </Key>
-    <Property Name="Row" Type="Int64" Nullable="false" />
-    <Property Name="Tech" Type="String" MaxLength="511" FixedLength="false" Unicode="false" />
-    <Property Name="Closed" Type="Int32" />
-  </EntityType>
-  <EntityType Name="TechOpen">
-    <Key>
-      <PropertyRef Name="Row" />
-    </Key>
-    <Property Name="Row" Type="Int64" Nullable="false" />
-    <Property Name="Tech" Type="String" MaxLength="511" FixedLength="false" Unicode="false" />
-    <Property Name="Opened" Type="Int32" />
-  </EntityType>
-  <EntityType Name="ProjectorIssue">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Count" Type="Int32" />
-  </EntityType>
-  <EntityType Name="NumberClosedMonth">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="Month" Type="Int32" />
-    <Property Name="Closed" Type="Int32" />
-  </EntityType>
-  <EntityType Name="NumberOpenedMonth">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="Month" Type="Int32" />
-    <Property Name="Opened" Type="Int32" />
-  </EntityType>
-  <EntityType Name="Attachment">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TicketNumber" Type="Int32" Nullable="false" />
-    <Property Name="FileLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="FileName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Creator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Moddate" Type="DateTime" Precision="3" />
+    <Property Name="ModTime" Type="DateTime" Precision="3" />
+    <Property Name="Action" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Main">
     <Key>
@@ -246,6 +150,77 @@
     <Property Name="TimeSpent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="EquipmentCount">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Count" Type="Int32" />
+  </EntityType>
+  <EntityType Name="NumberClosed">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="ThisDate" Type="DateTime" Precision="0" />
+    <Property Name="Closed" Type="Int32" />
+  </EntityType>
+  <EntityType Name="NumberClosedMonth">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Month" Type="Int32" />
+    <Property Name="Closed" Type="Int32" />
+  </EntityType>
+  <EntityType Name="NumberOpened">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="ThisDate" Type="DateTime" Precision="0" />
+    <Property Name="Opened" Type="Int32" />
+  </EntityType>
+  <EntityType Name="NumberOpenedMonth">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Month" Type="Int32" />
+    <Property Name="Opened" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ProjectorIssue">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Count" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ScheduledSchoolsTicket">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+    </Key>
+    <Property Name="TicketNumber" Type="Int32" Nullable="false" />
+    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TroubleUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Issue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="CloseTime" Type="DateTime" Precision="3" />
+    <Property Name="UserEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TechID" Type="Int32" />
+    <Property Name="Nutrition" Type="Boolean" />
+    <Property Name="Monday" Type="Boolean" />
+    <Property Name="Tuesday" Type="Boolean" />
+    <Property Name="Wednesday" Type="Boolean" />
+    <Property Name="Thursday" Type="Boolean" />
+    <Property Name="Friday" Type="Boolean" />
+  </EntityType>
   <EntityType Name="SchoolName">
     <Key>
       <PropertyRef Name="ID" />
@@ -253,4 +228,43 @@
     <Property Name="ID" Type="Int64" Nullable="false" />
     <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
+  <EntityType Name="TechClosed">
+    <Key>
+      <PropertyRef Name="Row" />
+    </Key>
+    <Property Name="Row" Type="Int64" Nullable="false" />
+    <Property Name="Tech" Type="String" MaxLength="511" FixedLength="false" Unicode="false" />
+    <Property Name="Closed" Type="Int32" />
+  </EntityType>
+  <EntityType Name="TechOpen">
+    <Key>
+      <PropertyRef Name="Row" />
+    </Key>
+    <Property Name="Row" Type="Int64" Nullable="false" />
+    <Property Name="Tech" Type="String" MaxLength="511" FixedLength="false" Unicode="false" />
+    <Property Name="Opened" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="TicketsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Attachments" EntityType="Self.Attachment" />
+    <EntitySet Name="Comments" EntityType="Self.Comment" />
+    <EntitySet Name="Equipments" EntityType="Self.Equipment" />
+    <EntitySet Name="MailLists" EntityType="Self.MailList" />
+    <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+    <EntitySet Name="StaffToSites" EntityType="Self.StaffToSite" />
+    <EntitySet Name="TeacherToRooms" EntityType="Self.TeacherToRoom" />
+    <EntitySet Name="TechLogins" EntityType="Self.TechLogin" />
+    <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+    <EntitySet Name="Details" EntityType="Self.Detail" />
+    <EntitySet Name="Mains" EntityType="Self.Main" />
+    <EntitySet Name="EquipmentCounts" EntityType="Self.EquipmentCount" />
+    <EntitySet Name="NumberCloseds" EntityType="Self.NumberClosed" />
+    <EntitySet Name="NumberClosedMonths" EntityType="Self.NumberClosedMonth" />
+    <EntitySet Name="NumberOpeneds" EntityType="Self.NumberOpened" />
+    <EntitySet Name="NumberOpenedMonths" EntityType="Self.NumberOpenedMonth" />
+    <EntitySet Name="ProjectorIssues" EntityType="Self.ProjectorIssue" />
+    <EntitySet Name="ScheduledSchoolsTickets" EntityType="Self.ScheduledSchoolsTicket" />
+    <EntitySet Name="SchoolNames" EntityType="Self.SchoolName" />
+    <EntitySet Name="TechCloseds" EntityType="Self.TechClosed" />
+    <EntitySet Name="TechOpens" EntityType="Self.TechOpen" />
+  </EntityContainer>
 </Schema>
