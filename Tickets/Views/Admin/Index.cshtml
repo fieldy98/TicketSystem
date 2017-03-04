@@ -39,8 +39,8 @@
         </div>
     </div>
     <div class="panel-body">
-        <div class="col-xs-12 col-sm-3" id="closed">
-            <table>
+        <div class="col-xs-12 col-sm-3">
+            <table class="display" id="closed">
                 <thead>
                     <tr>
                         <th class="col-sm-2">
@@ -52,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.techclose)
+                    @*@foreach (var item in Model.techclose)
                     {
                         <tr>
                             <td class="col-sm-2">
@@ -62,12 +62,12 @@
                                 @item.Count
                             </td>
                         </tr>
-                    }
+                    }*@
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-12 col-sm-3" id="open">
-            <table>
+        <div class="col-xs-12 col-sm-3">
+            <table class="display" id="open">
                 <thead>
                     <tr>
                         <th class="col-sm-2">
@@ -79,22 +79,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.techopened)
-            {
-                        <tr>
-                            <td class="col-sm-2">
-                                @item.Name
-                            </td>
-                            <td class="col-sm-2">
-                                @item.Count
-                            </td>
-                        </tr>
-                    }
+
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-12 col-sm-3" id="projector">
-            <table>
+        <div class="col-xs-12 col-sm-3">
+            <table class="display" id="projector">
                 <thead>
                     <tr>
                         <th class="col-sm-2">
@@ -106,22 +96,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.projector)
-            {
-                        <tr>
-                            <td class="col-sm-2">
-                                @item.School
-                            </td>
-                            <td class="col-sm-2">
-                                @item.Count
-                            </td>
-                        </tr>
-                    }
+
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-12 col-sm-3" id="ticketcount">
-            <table>
+        <div class="col-xs-12 col-sm-3">
+            <table class="display" id="perschool">
                 <thead>
                     <tr>
                         <th class="col-sm-2">
@@ -133,17 +113,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.perschool)
-            {
-                        <tr>
-                            <td class="col-sm-2">
-                                @item.School
-                            </td>
-                            <td class="col-sm-2">
-                                @item.Count
-                            </td>
-                        </tr>
-                    }
+
                 </tbody>
             </table>
         </div>
@@ -157,114 +127,244 @@
 
 
 
+@section Scripts {
+
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="http://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryval")
 <script>
-    $(function () {
-        Highcharts.chart('container', {
-            chart: {
-                type: 'spline'
-            },
-            title: {
-                text: 'Tickets',
-                x: -20 //center
-            },
-            subtitle: {
-                text: 'Opened and Closed over the last year',
-                x: -20
-            },
-            xAxis: {
-                categories: @Html.Raw(Json.Encode(Model.openedtickets.Select(x => x.Date))),
-                },
-            yAxis: {
-                title: {
-                    text: 'Number of Tickets'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ' Tickets'
-            },
-            credits: {
-                enabled: false
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            series: [{
-                name: 'Opened',
-                data: @Html.Raw(Json.Encode(Model.openedtickets.Select(x => x.Count))),
-            },
-            {
-                name: 'Closed',
-                data: @Html.Raw(Json.Encode(Model.closedtickets.Select(x => x.Count))),
-            }]
+    function CreateGraph() {
+        $.ajax({
+            type: 'get',
+            url: '/api/GraphTickets',
+            dataType: 'json',
+            dataSrc: '',
+            success: function(dataSrc) {
+                $(function () {
+                    var month = [];
+                    var opened= [];
+                    var closed = [];
+                    for(var i = 0; i < dataSrc.length; i++)
+                    {
+                        month[i] = dataSrc[i].Month;
+                        opened[i] = dataSrc[i].Opened;
+                        closed[i] = dataSrc[i].Closed;
+                    }
+                    $(function TicketsGraph() {
+                        Highcharts.chart('container', {
+                            chart: {
+                                type: 'spline'
+                            },
+                            title: {
+                                text: 'Tickets',
+                                x: -20 //center
+                            },
+                            subtitle: {
+                                text: 'Opened and Closed over the last year',
+                                x: -20
+                            },
+                            xAxis: {
+                                categories: month
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Number of Tickets'
+                                },
+                                plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }]
+                            },
+                            tooltip: {
+                                valueSuffix: ' Tickets'
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                align: 'right',
+                                verticalAlign: 'middle',
+                                borderWidth: 0
+                            },
+                            series: [{
+                                name: 'Opened',
+                                data: opened
+                            },
+                            {
+                                name: 'Closed',
+                                data: closed
+                            }]
+                        });
+                    
+                    });
+                });
+            }
         });
-    });
-    $(function () {
+        $(function () {
 
-        $(document).ready(function () {
-            var series = @Model.chart.Count;
-            var myData = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Equipment)));
-            var myData2 = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Count)));
-            var mySeries = [];
-            for (var i = 0; i < series; i++)
-            {
-                mySeries.push([myData[i], myData2[i]]);
-            }
+            $(document).ready(function () {
+                var series = @Model.chart.Count;
+                var myData = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Equipment)));
+                var myData2 = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Count)));
+                var mySeries = [];
+                for (var i = 0; i < series; i++)
+                {
+                    mySeries.push([myData[i], myData2[i]]);
+                }
 
-            // Build the chart
-            Highcharts.chart('genrechart', {
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'pie'
-                },
-                title: {
-                    text: 'Tickets for Equipment'
-                },
-                subtitle: {
-                    text: 'Created over the last year',
-                    x: -20
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            style: {
-                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-            }
-                        },
-                        showInLegend: false
+                // Build the chart
+                Highcharts.chart('genrechart', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
                     },
-                },
-                credits: {
-                    enabled: false
-                },
-                series: [{
-                    name: 'Tickets',
-                    colorByPoint: true,
+                    title: {
+                        text: 'Tickets for Equipment'
+                    },
+                    subtitle: {
+                        text: 'Created over the last year',
+                        x: -20
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: false
+                        },
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Tickets',
+                        colorByPoint: true,
 
-                    data: mySeries
-                }]
+                        data: mySeries
+                    }]
+                });
+            
             });
         });
-    });
-</script>
     }
+
+</script>
+
+    <script>
+        $(document).ready(function () {
+            function RefreshTables() {
+                var table1 = $("#closed").DataTable({
+                    ajax: {
+                        url: "/api/TechCloses",
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "Tech",
+                        },
+                        {
+                            data: "Closed"
+                        }
+                    ]
+                });
+                var table2 = $("#open").DataTable({
+                    ajax: {
+                        url: "/api/TechOpens",
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "Tech",
+                        },
+                        {
+                            data: "Opened"
+                        }
+                    ]
+                });
+                var table3 = $("#projector").DataTable({
+                    ajax: {
+                        url: "/api/Projectors",
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "Site",
+                        },
+                        {
+                            data: "Count"
+                        }
+                    ]
+                });
+                var table4 = $("#perschool").DataTable({
+                    ajax: {
+                        url: "/api/LastYearClosedTickets",
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "Site",
+                        },
+                        {
+                            data: "Count"
+                        }
+                    ]
+                });
+                table1.ajax.reload();
+                table2.ajax.reload();
+                table3.ajax.reload();
+                table4.ajax.reload();
+                setTimeout(RefreshTables, 5000);
+            }
+
+            RefreshTables();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {              
+            CreateGraph();
+            //Refresh
+            setInterval(function(){
+                CreateGraph();
+            },60000);  //1 min refresh
+        });
+    </script>
+}
+    

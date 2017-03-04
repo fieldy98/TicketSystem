@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Attachments">
           <Key>
             <PropertyRef Name="ID" />
@@ -167,6 +167,28 @@ warning 6002: The table/view 'TicketSystem.dbo.EquipmentCount' does not have a p
           </Key>
           <Property Name="ID" Type="bigint" Nullable="false" />
           <Property Name="Equipment" Type="varchar" MaxLength="255" />
+          <Property Name="Count" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.GraphLastYear' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GraphLastYear">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="varchar" MaxLength="9" />
+          <Property Name="Opened" Type="int" />
+          <Property Name="Closed" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.LastYearTickets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LastYearTickets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Site" Type="varchar" MaxLength="255" />
           <Property Name="Count" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -335,6 +357,22 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     [EquipmentCount].[Count] AS [Count]
     FROM [dbo].[EquipmentCount] AS [EquipmentCount]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="GraphLastYear" EntityType="Self.GraphLastYear" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GraphLastYear].[ID] AS [ID], 
+    [GraphLastYear].[Year] AS [Year], 
+    [GraphLastYear].[Month] AS [Month], 
+    [GraphLastYear].[Opened] AS [Opened], 
+    [GraphLastYear].[Closed] AS [Closed]
+    FROM [dbo].[GraphLastYear] AS [GraphLastYear]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LastYearTickets" EntityType="Self.LastYearTickets" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LastYearTickets].[ID] AS [ID], 
+    [LastYearTickets].[Site] AS [Site], 
+    [LastYearTickets].[Count] AS [Count]
+    FROM [dbo].[LastYearTickets] AS [LastYearTickets]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="NumberClosed" EntityType="Self.NumberClosed" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [NumberClosed].[ID] AS [ID], 
@@ -413,8 +451,7 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     FROM [dbo].[TechOpen] AS [TechOpen]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TicketSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -684,7 +721,27 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <EntitySet Name="SchoolNames" EntityType="Self.SchoolName" />
           <EntitySet Name="TechCloseds" EntityType="Self.TechClosed" />
           <EntitySet Name="TechOpens" EntityType="Self.TechOpen" />
+          <EntitySet Name="LastYearTickets" EntityType="TicketSystemModel.LastYearTicket" />
+          <EntitySet Name="GraphLastYears" EntityType="TicketSystemModel.GraphLastYear" />
         </EntityContainer>
+        <EntityType Name="LastYearTicket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Count" Type="Int32" />
+        </EntityType>
+        <EntityType Name="GraphLastYear">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Opened" Type="Int32" />
+          <Property Name="Closed" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -953,6 +1010,26 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
                 <ScalarProperty Name="Row" ColumnName="Row" />
                 <ScalarProperty Name="Tech" ColumnName="Tech" />
                 <ScalarProperty Name="Opened" ColumnName="Opened" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LastYearTickets">
+            <EntityTypeMapping TypeName="TicketSystemModel.LastYearTicket">
+              <MappingFragment StoreEntitySet="LastYearTickets">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GraphLastYears">
+            <EntityTypeMapping TypeName="TicketSystemModel.GraphLastYear">
+              <MappingFragment StoreEntitySet="GraphLastYear">
+                <ScalarProperty Name="Closed" ColumnName="Closed" />
+                <ScalarProperty Name="Opened" ColumnName="Opened" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

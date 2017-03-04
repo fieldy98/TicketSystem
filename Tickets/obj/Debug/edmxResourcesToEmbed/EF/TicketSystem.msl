@@ -266,5 +266,25 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="LastYearTickets">
+      <EntityTypeMapping TypeName="TicketSystemModel.LastYearTicket">
+        <MappingFragment StoreEntitySet="LastYearTickets">
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GraphLastYears">
+      <EntityTypeMapping TypeName="TicketSystemModel.GraphLastYear">
+        <MappingFragment StoreEntitySet="GraphLastYear">
+          <ScalarProperty Name="Closed" ColumnName="Closed" />
+          <ScalarProperty Name="Opened" ColumnName="Opened" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

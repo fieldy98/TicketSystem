@@ -46,5 +46,7 @@ namespace Tickets.EF
         public virtual DbSet<SchoolName> SchoolNames { get; set; }
         public virtual DbSet<TechClosed> TechCloseds { get; set; }
         public virtual DbSet<TechOpen> TechOpens { get; set; }
+        public virtual DbSet<LastYearTicket> LastYearTickets { get; set; }
+        public virtual DbSet<GraphLastYear> GraphLastYears { get; set; }
     }
 }

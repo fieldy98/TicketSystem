@@ -165,6 +165,28 @@ warning 6002: The table/view 'TicketSystem.dbo.EquipmentCount' does not have a p
     <Property Name="Count" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.GraphLastYear' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="GraphLastYear">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Month" Type="varchar" MaxLength="9" />
+    <Property Name="Opened" Type="int" />
+    <Property Name="Closed" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.LastYearTickets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="LastYearTickets">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="Count" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'TicketSystem.dbo.NumberClosed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="NumberClosed">
     <Key>
@@ -329,6 +351,22 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     [EquipmentCount].[Equipment] AS [Equipment], 
     [EquipmentCount].[Count] AS [Count]
     FROM [dbo].[EquipmentCount] AS [EquipmentCount]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="GraphLastYear" EntityType="Self.GraphLastYear" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [GraphLastYear].[ID] AS [ID], 
+    [GraphLastYear].[Year] AS [Year], 
+    [GraphLastYear].[Month] AS [Month], 
+    [GraphLastYear].[Opened] AS [Opened], 
+    [GraphLastYear].[Closed] AS [Closed]
+    FROM [dbo].[GraphLastYear] AS [GraphLastYear]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="LastYearTickets" EntityType="Self.LastYearTickets" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [LastYearTickets].[ID] AS [ID], 
+    [LastYearTickets].[Site] AS [Site], 
+    [LastYearTickets].[Count] AS [Count]
+    FROM [dbo].[LastYearTickets] AS [LastYearTickets]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="NumberClosed" EntityType="Self.NumberClosed" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

@@ -101,6 +101,7 @@ H:\Projects\Web\Tickets\Tickets\bin\Tickets.dll.config
 H:\Projects\Web\Tickets\Tickets\bin\Tickets.dll
 H:\Projects\Web\Tickets\Tickets\bin\Tickets.pdb
 H:\Projects\Web\Tickets\Tickets\bin\Antlr3.Runtime.dll
+H:\Projects\Web\Tickets\Tickets\bin\AutoMapper.dll
 H:\Projects\Web\Tickets\Tickets\bin\EntityFramework.dll
 H:\Projects\Web\Tickets\Tickets\bin\EntityFramework.SqlServer.dll
 H:\Projects\Web\Tickets\Tickets\bin\Highcharts.dll
@@ -128,7 +129,10 @@ H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.Twitter.dll
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Web.Infrastructure.dll
 H:\Projects\Web\Tickets\Tickets\bin\Newtonsoft.Json.dll
 H:\Projects\Web\Tickets\Tickets\bin\Owin.dll
+H:\Projects\Web\Tickets\Tickets\bin\System.Net.Http.Formatting.dll
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Helpers.dll
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.dll
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.WebHost.dll
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Mvc.dll
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Optimization.dll
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Razor.dll
@@ -136,6 +140,7 @@ H:\Projects\Web\Tickets\Tickets\bin\System.Web.WebPages.Deployment.dll
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.WebPages.dll
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.WebPages.Razor.dll
 H:\Projects\Web\Tickets\Tickets\bin\WebGrease.dll
+H:\Projects\Web\Tickets\Tickets\bin\AutoMapper.xml
 H:\Projects\Web\Tickets\Tickets\bin\Highcharts.pdb
 H:\Projects\Web\Tickets\Tickets\bin\Highcharts.MVC.pdb
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.AI.DependencyCollector.xml
@@ -144,6 +149,9 @@ H:\Projects\Web\Tickets\Tickets\bin\Microsoft.AI.Web.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.AI.WindowsServer.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.ApplicationInsights.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+H:\Projects\Web\Tickets\Tickets\bin\System.Net.Http.Formatting.xml
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.xml
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.WebHost.xml
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Helpers.xml
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Mvc.xml
 H:\Projects\Web\Tickets\Tickets\bin\System.Web.Optimization.xml
@@ -167,6 +175,6 @@ H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.OAuth.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.Google.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.Twitter.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.csprojResolveAssemblyReference.cache
 H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.dll
 H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.pdb
-H:\Projects\Web\Tickets\Tickets\obj\Debug\Tickets.csprojResolveAssemblyReference.cache
