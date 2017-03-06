@@ -15,7 +15,7 @@ namespace Tickets.EF
     public partial class EquipmentCount
     {
         public long ID { get; set; }
-        public string Equipment { get; set; }
-        public Nullable<int> Count { get; set; }
+        public string name { get; set; }
+        public Nullable<int> y { get; set; }
     }
 }

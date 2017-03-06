@@ -22,6 +22,8 @@ namespace Tickets.App_Start
             Mapper.CreateMap<LastYearTicketDto, LastYearTicket>();
             Mapper.CreateMap<GraphLastYear, GraphTicketsDto>();
             Mapper.CreateMap<GraphTicketsDto, GraphLastYear>();
+            Mapper.CreateMap<EquipmentCount, EquipmentTicketsDto>();
+            Mapper.CreateMap<EquipmentTicketsDto, EquipmentCount>();
         }
     }
 }

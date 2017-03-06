@@ -83,3 +83,12 @@ H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.Twitter.xml
 H:\Projects\Web\Tickets\Tickets\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 H:\Projects\Web\Tickets\Tickets\obj\Release\Tickets.dll
 H:\Projects\Web\Tickets\Tickets\obj\Release\Tickets.pdb
+H:\Projects\Web\Tickets\Tickets\bin\AutoMapper.dll
+H:\Projects\Web\Tickets\Tickets\bin\System.Net.Http.Formatting.dll
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.dll
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.WebHost.dll
+H:\Projects\Web\Tickets\Tickets\bin\AutoMapper.xml
+H:\Projects\Web\Tickets\Tickets\bin\System.Net.Http.Formatting.xml
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.xml
+H:\Projects\Web\Tickets\Tickets\bin\System.Web.Http.WebHost.xml
+H:\Projects\Web\Tickets\Tickets\obj\Release\Tickets.csprojResolveAssemblyReference.cache

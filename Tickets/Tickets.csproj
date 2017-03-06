@@ -225,6 +225,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\EquipmentTicketsController.cs" />
     <Compile Include="Controllers\Api\GraphTicketsController.cs" />
     <Compile Include="Controllers\Api\LastYearClosedTicketsController.cs" />
     <Compile Include="Controllers\Api\ProjectorsController.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Dtos\EquipmentTicketsDto.cs" />
     <Compile Include="Dtos\GraphTicketsDto.cs" />
     <Compile Include="Dtos\LastYearTicketDto.cs" />
     <Compile Include="Dtos\ProjectorDto.cs" />

@@ -150,14 +150,6 @@
     <Property Name="TimeSpent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="EquipmentCount">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Count" Type="Int32" />
-  </EntityType>
   <EntityType Name="NumberClosed">
     <Key>
       <PropertyRef Name="ID" />
@@ -256,7 +248,6 @@
     <EntitySet Name="Tickets" EntityType="Self.Ticket" />
     <EntitySet Name="Details" EntityType="Self.Detail" />
     <EntitySet Name="Mains" EntityType="Self.Main" />
-    <EntitySet Name="EquipmentCounts" EntityType="Self.EquipmentCount" />
     <EntitySet Name="NumberCloseds" EntityType="Self.NumberClosed" />
     <EntitySet Name="NumberClosedMonths" EntityType="Self.NumberClosedMonth" />
     <EntitySet Name="NumberOpeneds" EntityType="Self.NumberOpened" />
@@ -268,6 +259,7 @@
     <EntitySet Name="TechOpens" EntityType="Self.TechOpen" />
     <EntitySet Name="LastYearTickets" EntityType="TicketSystemModel.LastYearTicket" />
     <EntitySet Name="GraphLastYears" EntityType="TicketSystemModel.GraphLastYear" />
+    <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
   </EntityContainer>
   <EntityType Name="LastYearTicket">
     <Key>
@@ -286,5 +278,13 @@
     <Property Name="Month" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
     <Property Name="Opened" Type="Int32" />
     <Property Name="Closed" Type="Int32" />
+  </EntityType>
+  <EntityType Name="EquipmentCount">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="y" Type="Int32" />
   </EntityType>
 </Schema>

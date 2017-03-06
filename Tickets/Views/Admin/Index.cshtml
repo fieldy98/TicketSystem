@@ -1,4 +1,4 @@
-﻿@model Tickets.ViewModels.TicketsCreateViewModel
+﻿
 
 @{
     ViewBag.Title = "Index";
@@ -52,17 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var item in Model.techclose)
-                    {
-                        <tr>
-                            <td class="col-sm-2">
-                                @item.Name
-                            </td>
-                            <td class="col-sm-2">
-                                @item.Count
-                            </td>
-                        </tr>
-                    }*@
+
                 </tbody>
             </table>
         </div>
@@ -148,13 +138,12 @@
             url: '/api/GraphTickets',
             dataType: 'json',
             dataSrc: '',
-            success: function(dataSrc) {
+            success: function (dataSrc) {
                 $(function () {
                     var month = [];
-                    var opened= [];
+                    var opened = [];
                     var closed = [];
-                    for(var i = 0; i < dataSrc.length; i++)
-                    {
+                    for (var i = 0; i < dataSrc.length; i++) {
                         month[i] = dataSrc[i].Month;
                         opened[i] = dataSrc[i].Opened;
                         closed[i] = dataSrc[i].Closed;
@@ -206,68 +195,65 @@
                                 data: closed
                             }]
                         });
-                    
+
                     });
                 });
             }
         });
-        $(function () {
+        $.ajax({
+            type: 'get',
+            url: '/api/EquipmentTickets',
+            dataType: 'json',
+            dataSrc: '',
+            success: function (dataSrc) {
+                $(function () {
+                            // Build the chart
+                            Highcharts.chart('genrechart', {
+                                chart: {
+                                    plotBackgroundColor: null,
+                                    plotBorderWidth: null,
+                                    plotShadow: false,
+                                    type: 'pie'
+                                },
+                                title: {
+                                    text: 'Tickets for Equipment'
+                                },
+                                subtitle: {
+                                    text: 'Created over the last year',
+                                    x: -20
+                                },
+                                tooltip: {
+                                    pointFormat: '{series.name}: <b>{point.y:.1f}</b>'
+                                },
+                                plotOptions: {
+                                    pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                            style: {
+                                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                            }
+                                        },
+                                        showInLegend: false
+                                    },
+                                },
+                                credits: {
+                                    enabled: false
+                                },
+                                series: [{
+                                    name: 'Tickets',
+                                    colorByPoint: true,
 
-            $(document).ready(function () {
-                var series = @Model.chart.Count;
-                var myData = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Equipment)));
-                var myData2 = @Html.Raw(Json.Encode(Model.chart.Select(x => x.Count)));
-                var mySeries = [];
-                for (var i = 0; i < series; i++)
-                {
-                    mySeries.push([myData[i], myData2[i]]);
-                }
+                                    data: dataSrc
+                                }]
+                            });
+                    });
+            }
 
-                // Build the chart
-                Highcharts.chart('genrechart', {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
-                    },
-                    title: {
-                        text: 'Tickets for Equipment'
-                    },
-                    subtitle: {
-                        text: 'Created over the last year',
-                        x: -20
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            },
-                            showInLegend: false
-                        },
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    series: [{
-                        name: 'Tickets',
-                        colorByPoint: true,
 
-                        data: mySeries
-                    }]
-                });
-            
-            });
-        });
+        })
     }
 
 </script>

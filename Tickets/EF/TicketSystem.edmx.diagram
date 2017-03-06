@@ -16,7 +16,6 @@
         <EntityTypeShape EntityType="TicketSystemModel.Ticket" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TicketSystemModel.Detail" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TicketSystemModel.Main" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.EquipmentCount" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TicketSystemModel.NumberClosed" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TicketSystemModel.NumberClosedMonth" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TicketSystemModel.NumberOpened" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
@@ -28,6 +27,7 @@
         <EntityTypeShape EntityType="TicketSystemModel.TechOpen" Width="1.5" PointX="8.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TicketSystemModel.LastYearTicket" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="TicketSystemModel.GraphLastYear" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.EquipmentCount" Width="1.5" PointX="13.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

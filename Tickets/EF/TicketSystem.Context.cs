@@ -36,7 +36,6 @@ namespace Tickets.EF
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Detail> Details { get; set; }
         public virtual DbSet<Main> Mains { get; set; }
-        public virtual DbSet<EquipmentCount> EquipmentCounts { get; set; }
         public virtual DbSet<NumberClosed> NumberCloseds { get; set; }
         public virtual DbSet<NumberClosedMonth> NumberClosedMonths { get; set; }
         public virtual DbSet<NumberOpened> NumberOpeneds { get; set; }
@@ -48,5 +47,6 @@ namespace Tickets.EF
         public virtual DbSet<TechOpen> TechOpens { get; set; }
         public virtual DbSet<LastYearTicket> LastYearTickets { get; set; }
         public virtual DbSet<GraphLastYear> GraphLastYears { get; set; }
+        public virtual DbSet<EquipmentCount> EquipmentCounts { get; set; }
     }
 }

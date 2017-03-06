@@ -166,8 +166,8 @@ warning 6002: The table/view 'TicketSystem.dbo.EquipmentCount' does not have a p
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" Nullable="false" />
-          <Property Name="Equipment" Type="varchar" MaxLength="255" />
-          <Property Name="Count" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="y" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TicketSystem.dbo.GraphLastYear' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -353,8 +353,8 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <EntitySet Name="EquipmentCount" EntityType="Self.EquipmentCount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [EquipmentCount].[ID] AS [ID], 
-    [EquipmentCount].[Equipment] AS [Equipment], 
-    [EquipmentCount].[Count] AS [Count]
+    [EquipmentCount].[name] AS [name], 
+    [EquipmentCount].[y] AS [y]
     FROM [dbo].[EquipmentCount] AS [EquipmentCount]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GraphLastYear" EntityType="Self.GraphLastYear" store:Type="Views" store:Schema="dbo">
@@ -605,14 +605,6 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <Property Name="TimeSpent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="EquipmentCount">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Count" Type="Int32" />
-        </EntityType>
         <EntityType Name="NumberClosed">
           <Key>
             <PropertyRef Name="ID" />
@@ -711,7 +703,6 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <EntitySet Name="Tickets" EntityType="Self.Ticket" />
           <EntitySet Name="Details" EntityType="Self.Detail" />
           <EntitySet Name="Mains" EntityType="Self.Main" />
-          <EntitySet Name="EquipmentCounts" EntityType="Self.EquipmentCount" />
           <EntitySet Name="NumberCloseds" EntityType="Self.NumberClosed" />
           <EntitySet Name="NumberClosedMonths" EntityType="Self.NumberClosedMonth" />
           <EntitySet Name="NumberOpeneds" EntityType="Self.NumberOpened" />
@@ -723,6 +714,7 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <EntitySet Name="TechOpens" EntityType="Self.TechOpen" />
           <EntitySet Name="LastYearTickets" EntityType="TicketSystemModel.LastYearTicket" />
           <EntitySet Name="GraphLastYears" EntityType="TicketSystemModel.GraphLastYear" />
+          <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
         </EntityContainer>
         <EntityType Name="LastYearTicket">
           <Key>
@@ -741,6 +733,14 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <Property Name="Month" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
           <Property Name="Opened" Type="Int32" />
           <Property Name="Closed" Type="Int32" />
+        </EntityType>
+        <EntityType Name="EquipmentCount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="y" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -909,15 +909,6 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EquipmentCounts">
-            <EntityTypeMapping TypeName="TicketSystemModel.EquipmentCount">
-              <MappingFragment StoreEntitySet="EquipmentCount">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="NumberCloseds">
             <EntityTypeMapping TypeName="TicketSystemModel.NumberClosed">
               <MappingFragment StoreEntitySet="NumberClosed">
@@ -1029,6 +1020,15 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
                 <ScalarProperty Name="Opened" ColumnName="Opened" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentCounts">
+            <EntityTypeMapping TypeName="TicketSystemModel.EquipmentCount">
+              <MappingFragment StoreEntitySet="EquipmentCount">
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

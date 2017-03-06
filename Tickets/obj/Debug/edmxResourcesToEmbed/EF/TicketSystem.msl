@@ -162,15 +162,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="EquipmentCounts">
-      <EntityTypeMapping TypeName="TicketSystemModel.EquipmentCount">
-        <MappingFragment StoreEntitySet="EquipmentCount">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-          <ScalarProperty Name="Count" ColumnName="Count" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="NumberCloseds">
       <EntityTypeMapping TypeName="TicketSystemModel.NumberClosed">
         <MappingFragment StoreEntitySet="NumberClosed">
@@ -282,6 +273,15 @@
           <ScalarProperty Name="Opened" ColumnName="Opened" />
           <ScalarProperty Name="Month" ColumnName="Month" />
           <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EquipmentCounts">
+      <EntityTypeMapping TypeName="TicketSystemModel.EquipmentCount">
+        <MappingFragment StoreEntitySet="EquipmentCount">
+          <ScalarProperty Name="y" ColumnName="y" />
+          <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
