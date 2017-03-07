@@ -225,22 +225,26 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\AttachmentsController.cs" />
     <Compile Include="Controllers\Api\EquipmentTicketsController.cs" />
     <Compile Include="Controllers\Api\GraphTicketsController.cs" />
     <Compile Include="Controllers\Api\LastYearClosedTicketsController.cs" />
     <Compile Include="Controllers\Api\ProjectorsController.cs" />
     <Compile Include="Controllers\Api\TechClosesController.cs" />
     <Compile Include="Controllers\Api\TechOpensController.cs" />
+    <Compile Include="Controllers\Api\TicketsController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Dtos\AttachmentsDto.cs" />
     <Compile Include="Dtos\EquipmentTicketsDto.cs" />
     <Compile Include="Dtos\GraphTicketsDto.cs" />
     <Compile Include="Dtos\LastYearTicketDto.cs" />
     <Compile Include="Dtos\ProjectorDto.cs" />
     <Compile Include="Dtos\TechCloseDto.cs" />
     <Compile Include="Dtos\TechOpenDto.cs" />
+    <Compile Include="Dtos\TicketsDto.cs" />
     <Compile Include="EF\Attachment.cs">
       <DependentUpon>TicketSystem.tt</DependentUpon>
     </Compile>

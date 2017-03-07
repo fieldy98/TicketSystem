@@ -1188,38 +1188,38 @@ namespace Tickets.Controllers
             {
                 Ticket t = new Ticket();
 
-                var user = db.StaffToSites.FirstOrDefault(x => x.BadgeNumber == ticket.User);
-                t.Site = ticket.Site;
-                t.TroubleUser = user.LastName + ", " + user.FirstName;
-                t.Location = ticket.Location;
-                if(ticket.Nutrition == true)
-                {
-                    t.Nutrition = true;
-                }
-                else if(ticket.Issue.Contains("Nutrition"))
-                {
-                    t.Nutrition = true;
-                }
-                else
-                {
-                    t.Nutrition = false;
-                }
-                t.Equipment = ticket.Equipment;
-                t.Issue = ticket.Issue;
-                t.UserEmail = user.Email;
-                t.CreateTime = DateTime.Now;
-                if(db.Schedules.Any(x=>x.School == user.Site))
-                {
-                    t.TechID = db.Schedules.SingleOrDefault(x => x.School == user.Site).TechID;
-                }
-                if(ticket.Nutrition == true || ticket.Issue.Contains("Nutrition"))
-                {
-                    t.TechID = db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID;
-                }
+                //var user = db.StaffToSites.FirstOrDefault(x => x.BadgeNumber == ticket.User);
+                //t.Site = ticket.Site;
+                //t.TroubleUser = user.LastName + ", " + user.FirstName;
+                //t.Location = ticket.Location;
+                //if(ticket.Nutrition == true)
+                //{
+                //    t.Nutrition = true;
+                //}
+                //else if(ticket.Issue.Contains("Nutrition"))
+                //{
+                //    t.Nutrition = true;
+                //}
+                //else
+                //{
+                //    t.Nutrition = false;
+                //}
+                //t.Equipment = ticket.Equipment;
+                //t.Issue = ticket.Issue;
+                //t.UserEmail = user.Email;
+                //t.CreateTime = DateTime.Now;
+                //if(db.Schedules.Any(x=>x.School == user.Site))
+                //{
+                //    t.TechID = db.Schedules.SingleOrDefault(x => x.School == user.Site).TechID;
+                //}
+                //if(ticket.Nutrition == true || ticket.Issue.Contains("Nutrition"))
+                //{
+                //    t.TechID = db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID;
+                //}
                 
-                t.IsArticle = false;
-                db.Tickets.Add(t);
-                db.SaveChanges();
+                //t.IsArticle = false;
+                //db.Tickets.Add(t);
+                //db.SaveChanges();
 
 
                 for (int i = 0; i < Request.Files.Count; i++)
@@ -1227,7 +1227,7 @@ namespace Tickets.Controllers
                     var myFile = Request.Files[i];
                     if (myFile.ContentLength > 0)
                     {
-                        Ticket ti = db.Tickets.OrderByDescending(x => x.CreateTime).First();
+                        Ticket ti = db.Tickets.OrderByDescending(x => x.TicketNumber).First();
                         Tickets.EF.Attachment a = new Tickets.EF.Attachment();
                         var fileName = ti.TicketNumber + "_" + DateTime.Now.ToString("yyyymmdd") + "_" + Path.GetFileName(myFile.FileName);
                         var path = Path.Combine(Server.MapPath("~/Attachments"), fileName);
@@ -1243,42 +1243,42 @@ namespace Tickets.Controllers
 
 
 
-                try
-                {
-                    SmtpClient client = new SmtpClient("exchange.pbvusd.net");
-                    //If you need to authenticate
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress("noreply@pbvusd.net");
-                    if (user.Email != null)
-                    {
-                        mailMessage.To.Add(user.Email);
-                    }
+                //try
+                //{
+                //    SmtpClient client = new SmtpClient("exchange.pbvusd.net");
+                //    //If you need to authenticate
+                //    MailMessage mailMessage = new MailMessage();
+                //    mailMessage.From = new MailAddress("noreply@pbvusd.net");
+                //    if (user.Email != null)
+                //    {
+                //        mailMessage.To.Add(user.Email);
+                //    }
 
-                    if (db.MailLists.Any(x => x.School == t.Site))
-                    {
-                        var school = db.MailLists.SingleOrDefault(x => x.School == t.Site);
+                //    if (db.MailLists.Any(x => x.School == t.Site))
+                //    {
+                //        var school = db.MailLists.SingleOrDefault(x => x.School == t.Site);
 
-                        mailMessage.CC.Add(school.Principal);
-                        mailMessage.CC.Add(school.Librarian);
-                        mailMessage.CC.Add(school.Clerk);
-                    }
-                    else
-                    {
-                        mailMessage.To.Add("jerk@pbvusd.net");
-                    }
+                //        mailMessage.CC.Add(school.Principal);
+                //        mailMessage.CC.Add(school.Librarian);
+                //        mailMessage.CC.Add(school.Clerk);
+                //    }
+                //    else
+                //    {
+                //        mailMessage.To.Add("jerk@pbvusd.net");
+                //    }
 
-                    mailMessage.Subject = "Ticket Creation - " + ticket.Location + " for their " + ticket.Equipment;
-                    mailMessage.Body = "A ticket was created for " + user.FirstName + " " + user.LastName + "\nThe issue is listed as:\n" + ticket.Issue;
-                    mailMessage.IsBodyHtml = true;
+                //    mailMessage.Subject = "Ticket Creation - " + ticket.Location + " for their " + ticket.Equipment;
+                //    mailMessage.Body = "A ticket was created for " + user.FirstName + " " + user.LastName + "\nThe issue is listed as:\n" + ticket.Issue;
+                //    mailMessage.IsBodyHtml = true;
 
-                    client.Send(mailMessage);
-                }
-                catch (Exception)
-                {
+                //    client.Send(mailMessage);
+                //}
+                //catch (Exception)
+                //{
 
-                    
-                }
-                
+
+                //}
+
 
 
                 return RedirectToAction("Index");
