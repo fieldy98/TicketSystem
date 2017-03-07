@@ -61,7 +61,7 @@
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.Equipment, new SelectList(Model.createequipment.Select(x => x.Equipment), "Equipment"),
                                         "Select Equipment",
-                                        new { @class = "form-control", id = "SelectedSite" })
+                                        new { @class = "form-control", id = "EquipmentValue" })
                         @Html.ValidationMessageFor(model => model.Equipment, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
+                        <input type="submit" value="Create" class="btn btn-default" id="submit"/>
                     </div>
                 </div>
             </div>
@@ -222,6 +222,27 @@
                     }
                 });
             }
+
+        });
+        $('#submit').on('click', function () {
+            var selectedSite = $('#SelectedSite').val();
+            var badge = $('#StaffValue').val();
+            var location = $('#RoomValue').val();
+            var nutrition = $('#Nutrition').val();
+            var equipment = $('#EquipmentValue').val();
+            var issue = $('#Issue').val();
+            $.ajax({
+                type: 'Post',
+                url: '/api/Tickets',
+                data: {Site: selectedSite, BadgeNumber: badge, Location: location, Nutrition: nutrition, Equipment: equipment, Issue: issue},
+                success: function (data) {
+                    $('#submit').submit();
+                    //window.location.href = '/Tickets/Index';
+                    },
+                error: function (data) {
+                    $(".errormessage").text('There was an error processing your request.');
+                }
+            });
 
         });
     </script>
