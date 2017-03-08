@@ -228,7 +228,11 @@
             var selectedSite = $('#SelectedSite').val();
             var badge = $('#StaffValue').val();
             var location = $('#RoomValue').val();
-            var nutrition = $('#Nutrition').val();
+            var elem = document.getElementById('Nutrition').checked;
+            if (elem == 1)
+                var nutrition = true;
+            else
+                var nutrition = false;
             var equipment = $('#EquipmentValue').val();
             var issue = $('#Issue').val();
             $.ajax({

@@ -37,7 +37,10 @@ namespace Tickets.Controllers.Api
             ticket.CreateTime = DateTime.Now;
             ticket.TroubleUser = LastName + ", " + FirstName;
             ticket.UserEmail = teacher.Email;
-            ticket.TechID = db.Schedules.FirstOrDefault(x => x.School == ticketsDto.Site).TechID;
+            if (ticketsDto.Nutrition == true || ticketsDto.Issue.Contains("Nutrition") || ticketsDto.Location == "Nutrition")
+                ticket.TechID = db.Schedules.FirstOrDefault(x => x.School == "Nutrition").TechID;
+            else
+                ticket.TechID = db.Schedules.FirstOrDefault(x => x.School == ticketsDto.Site).TechID;
             db.Tickets.Add(ticket);
             db.SaveChanges();
 
