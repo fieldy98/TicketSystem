@@ -161,8 +161,8 @@ warning 6002: The table/view 'TicketSystem.dbo.EquipmentCount' does not have a p
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="bigint" Nullable="false" />
-    <Property Name="Equipment" Type="varchar" MaxLength="255" />
-    <Property Name="Count" Type="int" />
+    <Property Name="name" Type="varchar" MaxLength="255" />
+    <Property Name="y" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'TicketSystem.dbo.GraphLastYear' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -348,8 +348,8 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     <EntitySet Name="EquipmentCount" EntityType="Self.EquipmentCount" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [EquipmentCount].[ID] AS [ID], 
-    [EquipmentCount].[Equipment] AS [Equipment], 
-    [EquipmentCount].[Count] AS [Count]
+    [EquipmentCount].[name] AS [name], 
+    [EquipmentCount].[y] AS [y]
     FROM [dbo].[EquipmentCount] AS [EquipmentCount]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="GraphLastYear" EntityType="Self.GraphLastYear" store:Type="Views" store:Schema="dbo">

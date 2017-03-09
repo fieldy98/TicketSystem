@@ -44,43 +44,6 @@ namespace Tickets.Controllers.Api
             db.Tickets.Add(ticket);
             db.SaveChanges();
 
-
-            try
-            {
-                SmtpClient client = new SmtpClient("exchange.pbvusd.net");
-                //If you need to authenticate
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("noreply@pbvusd.net");
-                if (ticket.UserEmail!= null)
-                {
-                    mailMessage.To.Add(ticket.UserEmail);
-                }
-
-                if (db.MailLists.Any(x => x.School == ticket.Site))
-                {
-                    var school = db.MailLists.SingleOrDefault(x => x.School == ticket.Site);
-
-                    mailMessage.CC.Add(school.Principal);
-                    mailMessage.CC.Add(school.Librarian);
-                    mailMessage.CC.Add(school.Clerk);
-                }
-                else
-                {
-                    mailMessage.To.Add("jerk@pbvusd.net");
-                }
-
-                mailMessage.Subject = "Ticket Creation - " + ticket.Location + " for their " + ticket.Equipment;
-                mailMessage.Body = "A ticket was created for " + ticket.TroubleUser + "\nThe issue is listed as:\n" + ticket.Issue;
-                mailMessage.IsBodyHtml = true;
-
-                client.Send(mailMessage);
-            }
-            catch (Exception)
-            {
-
-
-            }
-
             return ticketsDto;
 
         }

@@ -1240,6 +1240,42 @@ namespace Tickets.Controllers
                     }
 
                 }
+                try
+                {
+                    SmtpClient client = new SmtpClient("exchange.pbvusd.net");
+                    var newticket = db.Tickets.OrderByDescending(x => x.TicketNumber).First();
+                    //If you need to authenticate
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.From = new MailAddress("noreply@pbvusd.net");
+                    if (newticket.UserEmail != null)
+                    {
+                        mailMessage.To.Add(newticket.UserEmail);
+                    }
+
+                    if (db.MailLists.Any(x => x.School == newticket.Site))
+                    {
+                        var school = db.MailLists.SingleOrDefault(x => x.School == newticket.Site);
+
+                        mailMessage.CC.Add(school.Principal);
+                        mailMessage.CC.Add(school.Librarian);
+                        mailMessage.CC.Add(school.Clerk);
+                    }
+                    else
+                    {
+                        mailMessage.To.Add("dwhite@pbvusd.net");
+                    }
+
+                    mailMessage.Subject = "Ticket Creation - " + newticket.Location + " for their " + newticket.Equipment;
+                    mailMessage.Body = "A ticket was created for " + newticket.TroubleUser + "\nThe issue is listed as:\n" + newticket.Issue;
+                    mailMessage.IsBodyHtml = true;
+
+                    client.Send(mailMessage);
+                }
+                catch (Exception)
+                {
+
+
+                }
 
 
 
