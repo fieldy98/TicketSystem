@@ -1594,7 +1594,7 @@ namespace Tickets.Controllers
                     r.Location = selectedRoom.Room;
                     tcvm.room.Add(r);
                 }
-                for (var i = 0; i < 6; i++)
+                for (var i = 0; i < 7; i++)
                 {
                     if (i == 0)
                     {
@@ -1625,6 +1625,12 @@ namespace Tickets.Controllers
                     {
                         Room r = new Room();
                         r.Location = "Custodian";
+                        tcvm.room.Add(r);
+                    }
+                    else if (i == 5)
+                    {
+                        Room r = new Room();
+                        r.Location = "Computer Lab";
                         tcvm.room.Add(r);
                     }
                     else
@@ -1681,7 +1687,7 @@ namespace Tickets.Controllers
                     tcvm.room.Add(r);
 
                 }
-                for (var i = 0; i < 6; i++)
+                for (var i = 0; i < 7; i++)
                 {
                     if (i == 0)
                     {
@@ -1712,6 +1718,12 @@ namespace Tickets.Controllers
                     {
                         Room r = new Room();
                         r.Location = "Custodian";
+                        tcvm.room.Add(r);
+                    }
+                    else if (i == 5)
+                    {
+                        Room r = new Room();
+                        r.Location = "Computer Lab";
                         tcvm.room.Add(r);
                     }
                     else
