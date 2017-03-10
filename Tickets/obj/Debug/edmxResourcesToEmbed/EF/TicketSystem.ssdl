@@ -290,6 +290,39 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     <Property Name="Tech" Type="varchar" MaxLength="511" />
     <Property Name="Opened" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.TechOpenTicketsCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TechOpenTicketsCount">
+    <Key>
+      <PropertyRef Name="rn" />
+    </Key>
+    <Property Name="rn" Type="bigint" Nullable="false" />
+    <Property Name="School" Type="varchar" MaxLength="255" />
+    <Property Name="TechID" Type="int" />
+    <Property Name="OpenTickets" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TicketsForToday">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+    </Key>
+    <Property Name="TicketNumber" Type="int" Nullable="false" />
+    <Property Name="Site" Type="varchar" MaxLength="255" />
+    <Property Name="TroubleUser" Type="nvarchar(max)" />
+    <Property Name="Location" Type="varchar" MaxLength="255" />
+    <Property Name="Equipment" Type="varchar" MaxLength="255" />
+    <Property Name="Issue" Type="nvarchar(max)" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="UserEmail" Type="nvarchar(max)" />
+    <Property Name="TechID" Type="int" />
+    <Property Name="Nutrition" Type="bit" />
+    <Property Name="Day1" Type="varchar" MaxLength="9" />
+    <Property Name="Day2" Type="varchar" MaxLength="9" />
+    <Property Name="Day3" Type="varchar" MaxLength="9" />
+    <Property Name="Day4" Type="varchar" MaxLength="8" />
+    <Property Name="Day5" Type="varchar" MaxLength="6" />
+  </EntityType>
   <EntityContainer Name="TicketSystemModelStoreContainer">
     <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
@@ -444,6 +477,33 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     [TechOpen].[Tech] AS [Tech], 
     [TechOpen].[Opened] AS [Opened]
     FROM [dbo].[TechOpen] AS [TechOpen]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TechOpenTicketsCount" EntityType="Self.TechOpenTicketsCount" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TechOpenTicketsCount].[rn] AS [rn], 
+    [TechOpenTicketsCount].[School] AS [School], 
+    [TechOpenTicketsCount].[TechID] AS [TechID], 
+    [TechOpenTicketsCount].[OpenTickets] AS [OpenTickets]
+    FROM [dbo].[TechOpenTicketsCount] AS [TechOpenTicketsCount]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TicketsForToday" EntityType="Self.TicketsForToday" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TicketsForToday].[TicketNumber] AS [TicketNumber], 
+    [TicketsForToday].[Site] AS [Site], 
+    [TicketsForToday].[TroubleUser] AS [TroubleUser], 
+    [TicketsForToday].[Location] AS [Location], 
+    [TicketsForToday].[Equipment] AS [Equipment], 
+    [TicketsForToday].[Issue] AS [Issue], 
+    [TicketsForToday].[CreateTime] AS [CreateTime], 
+    [TicketsForToday].[UserEmail] AS [UserEmail], 
+    [TicketsForToday].[TechID] AS [TechID], 
+    [TicketsForToday].[Nutrition] AS [Nutrition], 
+    [TicketsForToday].[Day1] AS [Day1], 
+    [TicketsForToday].[Day2] AS [Day2], 
+    [TicketsForToday].[Day3] AS [Day3], 
+    [TicketsForToday].[Day4] AS [Day4], 
+    [TicketsForToday].[Day5] AS [Day5]
+    FROM [dbo].[TicketsForToday] AS [TicketsForToday]</DefiningQuery>
     </EntitySet>
   </EntityContainer>
 </Schema>

@@ -36,6 +36,7 @@ namespace Tickets.Controllers
                 var name = ticket.Name;
                 var tech = db.TechLogins.SingleOrDefault(x => x.Username == name);
                 tcvm.IsAdmin = tech.IsAdmin;
+                tcvm.TechID = tech.ID;
 
 
                     if (DateTime.Now.ToString("dddd") == "Monday")

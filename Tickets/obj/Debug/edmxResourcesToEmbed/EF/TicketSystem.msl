@@ -286,5 +286,36 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TicketsForTodays">
+      <EntityTypeMapping TypeName="TicketSystemModel.TicketsForToday">
+        <MappingFragment StoreEntitySet="TicketsForToday">
+          <ScalarProperty Name="Day5" ColumnName="Day5" />
+          <ScalarProperty Name="Day4" ColumnName="Day4" />
+          <ScalarProperty Name="Day3" ColumnName="Day3" />
+          <ScalarProperty Name="Day2" ColumnName="Day2" />
+          <ScalarProperty Name="Day1" ColumnName="Day1" />
+          <ScalarProperty Name="Nutrition" ColumnName="Nutrition" />
+          <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="Issue" ColumnName="Issue" />
+          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="TroubleUser" ColumnName="TroubleUser" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TechOpenTicketsCounts">
+      <EntityTypeMapping TypeName="TicketSystemModel.TechOpenTicketsCount">
+        <MappingFragment StoreEntitySet="TechOpenTicketsCount">
+          <ScalarProperty Name="OpenTickets" ColumnName="OpenTickets" />
+          <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -295,6 +295,39 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <Property Name="Tech" Type="varchar" MaxLength="511" />
           <Property Name="Opened" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.TechOpenTicketsCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TechOpenTicketsCount">
+          <Key>
+            <PropertyRef Name="rn" />
+          </Key>
+          <Property Name="rn" Type="bigint" Nullable="false" />
+          <Property Name="School" Type="varchar" MaxLength="255" />
+          <Property Name="TechID" Type="int" />
+          <Property Name="OpenTickets" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TicketsForToday">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+          </Key>
+          <Property Name="TicketNumber" Type="int" Nullable="false" />
+          <Property Name="Site" Type="varchar" MaxLength="255" />
+          <Property Name="TroubleUser" Type="nvarchar(max)" />
+          <Property Name="Location" Type="varchar" MaxLength="255" />
+          <Property Name="Equipment" Type="varchar" MaxLength="255" />
+          <Property Name="Issue" Type="nvarchar(max)" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="UserEmail" Type="nvarchar(max)" />
+          <Property Name="TechID" Type="int" />
+          <Property Name="Nutrition" Type="bit" />
+          <Property Name="Day1" Type="varchar" MaxLength="9" />
+          <Property Name="Day2" Type="varchar" MaxLength="9" />
+          <Property Name="Day3" Type="varchar" MaxLength="9" />
+          <Property Name="Day4" Type="varchar" MaxLength="8" />
+          <Property Name="Day5" Type="varchar" MaxLength="6" />
+        </EntityType>
         <EntityContainer Name="TicketSystemModelStoreContainer">
           <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
@@ -449,6 +482,33 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
     [TechOpen].[Tech] AS [Tech], 
     [TechOpen].[Opened] AS [Opened]
     FROM [dbo].[TechOpen] AS [TechOpen]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TechOpenTicketsCount" EntityType="Self.TechOpenTicketsCount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TechOpenTicketsCount].[rn] AS [rn], 
+    [TechOpenTicketsCount].[School] AS [School], 
+    [TechOpenTicketsCount].[TechID] AS [TechID], 
+    [TechOpenTicketsCount].[OpenTickets] AS [OpenTickets]
+    FROM [dbo].[TechOpenTicketsCount] AS [TechOpenTicketsCount]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TicketsForToday" EntityType="Self.TicketsForToday" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TicketsForToday].[TicketNumber] AS [TicketNumber], 
+    [TicketsForToday].[Site] AS [Site], 
+    [TicketsForToday].[TroubleUser] AS [TroubleUser], 
+    [TicketsForToday].[Location] AS [Location], 
+    [TicketsForToday].[Equipment] AS [Equipment], 
+    [TicketsForToday].[Issue] AS [Issue], 
+    [TicketsForToday].[CreateTime] AS [CreateTime], 
+    [TicketsForToday].[UserEmail] AS [UserEmail], 
+    [TicketsForToday].[TechID] AS [TechID], 
+    [TicketsForToday].[Nutrition] AS [Nutrition], 
+    [TicketsForToday].[Day1] AS [Day1], 
+    [TicketsForToday].[Day2] AS [Day2], 
+    [TicketsForToday].[Day3] AS [Day3], 
+    [TicketsForToday].[Day4] AS [Day4], 
+    [TicketsForToday].[Day5] AS [Day5]
+    FROM [dbo].[TicketsForToday] AS [TicketsForToday]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -715,6 +775,8 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <EntitySet Name="LastYearTickets" EntityType="TicketSystemModel.LastYearTicket" />
           <EntitySet Name="GraphLastYears" EntityType="TicketSystemModel.GraphLastYear" />
           <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
+          <EntitySet Name="TicketsForTodays" EntityType="TicketSystemModel.TicketsForToday" />
+          <EntitySet Name="TechOpenTicketsCounts" EntityType="TicketSystemModel.TechOpenTicketsCount" />
         </EntityContainer>
         <EntityType Name="LastYearTicket">
           <Key>
@@ -741,6 +803,35 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
           <Property Name="ID" Type="Int64" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="y" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TicketsForToday">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+          </Key>
+          <Property Name="TicketNumber" Type="Int32" Nullable="false" />
+          <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TroubleUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Issue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TechID" Type="Int32" />
+          <Property Name="Nutrition" Type="Boolean" />
+          <Property Name="Day1" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day2" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day3" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day4" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Day5" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TechOpenTicketsCount">
+          <Key>
+            <PropertyRef Name="rn" />
+          </Key>
+          <Property Name="rn" Type="Int64" Nullable="false" />
+          <Property Name="School" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TechID" Type="Int32" />
+          <Property Name="OpenTickets" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1030,6 +1121,37 @@ warning 6002: The table/view 'TicketSystem.dbo.TechOpen' does not have a primary
                 <ScalarProperty Name="y" ColumnName="y" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketsForTodays">
+            <EntityTypeMapping TypeName="TicketSystemModel.TicketsForToday">
+              <MappingFragment StoreEntitySet="TicketsForToday">
+                <ScalarProperty Name="Day5" ColumnName="Day5" />
+                <ScalarProperty Name="Day4" ColumnName="Day4" />
+                <ScalarProperty Name="Day3" ColumnName="Day3" />
+                <ScalarProperty Name="Day2" ColumnName="Day2" />
+                <ScalarProperty Name="Day1" ColumnName="Day1" />
+                <ScalarProperty Name="Nutrition" ColumnName="Nutrition" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Issue" ColumnName="Issue" />
+                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="TroubleUser" ColumnName="TroubleUser" />
+                <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TechOpenTicketsCounts">
+            <EntityTypeMapping TypeName="TicketSystemModel.TechOpenTicketsCount">
+              <MappingFragment StoreEntitySet="TechOpenTicketsCount">
+                <ScalarProperty Name="OpenTickets" ColumnName="OpenTickets" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="School" ColumnName="School" />
+                <ScalarProperty Name="rn" ColumnName="rn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

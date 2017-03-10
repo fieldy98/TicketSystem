@@ -28,6 +28,10 @@ namespace Tickets.App_Start
             Mapper.CreateMap<TicketsDto, Ticket>();
             Mapper.CreateMap<Attachment, AttachmentsDto>();
             Mapper.CreateMap<AttachmentsDto, Attachment>();
+            Mapper.CreateMap<TechOpenTicketsCount, TechOpenTicketsDto>();
+            Mapper.CreateMap<TechOpenTicketsDto, TechOpenTicketsCount>();
+            Mapper.CreateMap<TicketsForToday, TodaysOpenTicketsDto>();
+            Mapper.CreateMap<TodaysOpenTicketsDto, TicketsForToday>();
         }
     }
 }
