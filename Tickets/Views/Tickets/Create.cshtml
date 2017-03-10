@@ -240,12 +240,15 @@
                 url: '/api/Tickets',
                 data: {Site: selectedSite, BadgeNumber: badge, Location: location, Nutrition: nutrition, Equipment: equipment, Issue: issue},
                 success: function (data) {
-                    $('#submit').submit();
-                    //window.location.href = '/Tickets/Index';
                     },
                 error: function (data) {
                     $(".errormessage").text('There was an error processing your request.');
-                }
+                },
+                complete: function () {
+                    // make sure that you are no longer handling the submit event; clear handler
+                    this.off('submit');
+                    // actually submit the form
+                    this.submit();
             });
 
         });

@@ -38,7 +38,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var item in Model.indexview)
+                    @*@foreach (var item in Model.indexview)
             {
                         <tr>
                             <td class="col-xs-1">
@@ -64,7 +64,7 @@
                                 <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Tickets", new { id = item.TicketNumber })'" />
                             </td>
                         </tr>
-                    }
+                    }*@
                 </tbody>
             </table>
         </div>
@@ -83,7 +83,7 @@
                 </h1>
             </div>
             <div class="panel-body">
-                <table>
+                <table id="myschools">
                     <thead>
                         <tr>
                             <th class="col-sm-2">
@@ -93,7 +93,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.myschools)
+                        @*@foreach (var item in Model.myschools)
                         {
                             <tr>
                                 <td class="col-sm-2">
@@ -103,7 +103,7 @@
                                     <span class="badge">@item.TicketCount</span>
                                 </td>
                             </tr>
-                        }
+                        }*@
                     </tbody>
                 </table>
             </div>
@@ -118,7 +118,7 @@
                 </h1>
             </div>
             <div class="panel-body">
-                <table>
+                <table id="allschools">
                     <thead>
                         <tr>
                             <th class="col-sm-2">
@@ -130,7 +130,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.allschools)
+                        @*@foreach (var item in Model.allschools)
                         {
                             <tr>
                                 <td class="col-sm-2">
@@ -140,7 +140,7 @@
                                     <span class="badge">@item.TicketCount</span>
                                 </td>
                             </tr>
-                        }
+                        }*@
                     </tbody>
                 </table>
             </div>
@@ -161,30 +161,119 @@
 <script src="http://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
 
 <script>
-                    $(document).ready(function () {
-                        $('#myTable').DataTable({
-                            dom: 'Bfrtip',
-                            lengthMenu: [
-                        [20],
-                        ['Show all']
-                            ],
-                            buttons: [
-                               'excel', 'pdf',
-                               {
-                                   extend: 'print',
-                                   title: '',
-                                   customize: function (win) {
-                                       $(win.document.body)
-                                       .css('font-size', '8pt')
-                                       $(win.document.body).find('table')
-                                       .addClass('compact')
-                                       .css('font-size', 'inherit')
-                                   }
-                               }
-                            ],
-                            "bPaginate": false
-                        });
-                        $("#myTable_filter").addClass("pull-right");
-                    });
+    $(document).ready(function () {
+
+        function RefreshTables() {
+
+            var d = new Date();
+            var weekday = new Array(7);
+            weekday[0] =  "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+
+            var n = weekday[d.getDay()];
+
+                var table1 = $("#myTable").DataTable({
+                    ajax: {
+                        url: "/api/TodaysOpenTickets/" + @Model.TechID,
+                        data: {day: n },
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "TicketNumber",
+                        },
+                        {
+                            data: "Site"
+                        },
+                        {
+                            data: "TroubleUser"
+                        },
+                        {
+                            data: "Location"
+                        },
+                        {
+                            data: "Equipment"
+                        },
+                        {
+                            data: "Issue"
+                        },
+                        {
+                            data: "TicketNumber",
+                            render: function (data, type, ticket) {
+                                return "<a class='btn btn-default' href='Tickets/Edit/" + data + "'>Edit</a>"
+                            }
+                        }
+                    ]
+                });
+                var table2 = $("#myschools").DataTable({
+                    ajax: {
+                        url: "/api/TechOpenTickets/" + @Model.TechID,
+                        data: {day: n },
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "School",
+                            render: function (data, type, ticket) {
+                                return "<a style='color:grey;' href='Tickets/SchoolTickets?selectedSchool=" + data + "&TechID=" + @Model.TechID + "'>" + data + "</a>"
+                            }
+                        },
+                        {
+                            data: "OpenTickets",
+                            render: function (data, type, ticket) {
+                                return "<span class='badge'>"+ data + "</span>"
+                            }
+                        }
+                    ]
+                });
+
+                var table3 = $("#allschools").DataTable({
+                    ajax: {
+                        url: "/api/TechOpenTickets",
+                        dataSrc: ""
+                    },
+                    retrieve: true,
+                    bPaginate: false, //hide pagination
+                    bFilter: false, //hide Search bar
+                    bInfo: false, // hide showing entries
+                    columns: [
+                        {
+                            data: "School",
+                            render: function (data, type, ticket) {
+                                return "<a style='color:grey;' href='Tickets/SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
+                            }
+                        },
+                        {
+                            data: "OpenTickets",
+                            render: function (data, type, ticket) {
+                                return "<span class='badge'>"+ data + "</span>"
+                            }
+                        }
+                    ]
+                });
+            
+
+
+                table1.ajax.reload();
+                table2.ajax.reload();
+                table3.ajax.reload();
+                setTimeout(RefreshTables, 5000);
+            }
+
+            RefreshTables();
+        });
 </script>
 }

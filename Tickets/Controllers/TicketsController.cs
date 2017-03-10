@@ -28,6 +28,7 @@ namespace Tickets.Controllers
 
             var clientIP = Request.UserHostAddress;
             var site = ism.IdentifySite(clientIP);
+            tcvm.Site = site;
                 
             if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
             {
@@ -1936,7 +1937,7 @@ namespace Tickets.Controllers
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 var name = ticket.Name;
                 var tech = db.TechLogins.SingleOrDefault(x => x.Username == name);
-
+                tcvm.TechID = tech.ID;
 
                 if (selectedSchool == "All Tickets")
                 {
