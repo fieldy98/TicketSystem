@@ -16,9 +16,9 @@ namespace Tickets.Controllers.Api
     public class TicketsForSchoolsController : ApiController
     {
         TicketsEntities db = new TicketsEntities();
-        public IEnumerable<TodaysOpenTicketsDto> GetSchoolTickets(string school)
+        public IEnumerable<TicketsDto> GetSchoolTickets(string school)
         {
-            return db.TicketsForTodays.Where(x => x.Site == school).ToList().Select(Mapper.Map<TicketsForToday, TodaysOpenTicketsDto>);
+            return db.Tickets.Where(x => x.Site == school && x.CloseTime == null).ToList().Select(Mapper.Map<Ticket, TicketsDto>);
         }
     }
 }

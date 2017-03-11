@@ -174,7 +174,7 @@
     </div>
 </div>
 <div class="hidden-sm visible-md visible-lg col-md-2">
-    @if (Model.myschools.Any(x => x.School != null))
+    @if (@Model.TechID != null)
     {
         <div class="panel">
             <div class="panel-heading">
@@ -209,7 +209,7 @@
             </div>
         </div>
     }
-    @if (Model.allschools.Any(x => x.School != null))
+    @if (@Model.TechID != null)
     {
         <div class="panel">
             <div class="panel-heading">
@@ -337,7 +337,7 @@
                         {
                             data: "TicketNumber",
                             render: function (data, type, ticket) {
-                                return "<a class='btn btn-default' href='Edit/" + data + "'>Edit</a>"
+                                return "<a class='btn btn-default' href='/Tickets/Edit/" + data + "'>Edit</a>"
                             }
                         }
                     ]
@@ -356,7 +356,7 @@
                         {
                             data: "School",
                             render: function (data, type, ticket) {
-                                return "<a style='color:grey;' href='SchoolTickets?selectedSchool=" + data + "&TechID=" + $('#techtable').val() + "'>" + data + "</a>"
+                                return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "&TechID=" + $('#techtable').val() + "'>" + data + "</a>"
                             }
                         },
                         {
@@ -381,7 +381,7 @@
                         {
                             data: "School",
                             render: function (data, type, ticket) {
-                                return "<a style='color:grey;' href='SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
+                                return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
                             }
                         },
                         {
@@ -427,7 +427,7 @@
                         {
                             data: "TicketNumber",
                             render: function (data, type, ticket) {
-                                return "<a class='btn btn-default' href='SiteView/" + data + "'>View</a>"
+                                return "<a class='btn btn-default' href='/Tickets/SiteView/" + data + "'>View</a>"
                             }
 
                         }

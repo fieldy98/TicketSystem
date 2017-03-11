@@ -179,8 +179,8 @@
 
                 var table1 = $("#myTable").DataTable({
                     ajax: {
-                        url: "/api/TodaysOpenTickets/" + @Model.TechID,
-                        data: {day: n },
+                        url: "/api/TicketsForSchools",
+                        data: {school: '@Model.Site'},
                         dataSrc: ""
                     },
                     retrieve: true,
@@ -209,7 +209,7 @@
                         {
                             data: "TicketNumber",
                             render: function (data, type, ticket) {
-                                return "<a class='btn btn-default' href='Tickets/Edit/" + data + "'>Edit</a>"
+                                return "<a class='btn btn-default' href='/Tickets/Edit/" + data + "'>Edit</a>"
                             }
                         }
                     ]
@@ -228,7 +228,7 @@
                         {
                             data: "School",
                             render: function (data, type, ticket) {
-                                return "<a style='color:grey;' href='Tickets/SchoolTickets?selectedSchool=" + data + "&TechID=" + @Model.TechID + "'>" + data + "</a>"
+                                return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "&TechID=" + @Model.TechID + "'>" + data + "</a>"
                             }
                         },
                         {
@@ -253,7 +253,7 @@
                         {
                             data: "School",
                             render: function (data, type, ticket) {
-                                return "<a style='color:grey;' href='Tickets/SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
+                                return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
                             }
                         },
                         {

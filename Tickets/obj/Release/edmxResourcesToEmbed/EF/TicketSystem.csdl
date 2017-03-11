@@ -260,6 +260,8 @@
     <EntitySet Name="LastYearTickets" EntityType="TicketSystemModel.LastYearTicket" />
     <EntitySet Name="GraphLastYears" EntityType="TicketSystemModel.GraphLastYear" />
     <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
+    <EntitySet Name="TicketsForTodays" EntityType="TicketSystemModel.TicketsForToday" />
+    <EntitySet Name="TechOpenTicketsCounts" EntityType="TicketSystemModel.TechOpenTicketsCount" />
   </EntityContainer>
   <EntityType Name="LastYearTicket">
     <Key>
@@ -286,5 +288,34 @@
     <Property Name="ID" Type="Int64" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="y" Type="Int32" />
+  </EntityType>
+  <EntityType Name="TicketsForToday">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+    </Key>
+    <Property Name="TicketNumber" Type="Int32" Nullable="false" />
+    <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TroubleUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Equipment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Issue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="UserEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TechID" Type="Int32" />
+    <Property Name="Nutrition" Type="Boolean" />
+    <Property Name="Day1" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day2" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day3" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day4" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="Day5" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TechOpenTicketsCount">
+    <Key>
+      <PropertyRef Name="rn" />
+    </Key>
+    <Property Name="rn" Type="Int64" Nullable="false" />
+    <Property Name="School" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TechID" Type="Int32" />
+    <Property Name="OpenTickets" Type="Int32" />
   </EntityType>
 </Schema>
