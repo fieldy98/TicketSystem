@@ -50,5 +50,7 @@ namespace Tickets.EF
         public virtual DbSet<EquipmentCount> EquipmentCounts { get; set; }
         public virtual DbSet<TicketsForToday> TicketsForTodays { get; set; }
         public virtual DbSet<TechOpenTicketsCount> TechOpenTicketsCounts { get; set; }
+        public virtual DbSet<SitesToDay> SitesToDays { get; set; }
+        public virtual DbSet<AssignedTicketsCount> AssignedTicketsCounts { get; set; }
     }
 }

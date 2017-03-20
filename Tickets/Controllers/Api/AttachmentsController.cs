@@ -18,9 +18,9 @@ namespace Tickets.Controllers.Api
         {
             return db.Attachments.ToList().Select(Mapper.Map<Attachment, AttachmentsDto>);
         }
-        public AttachmentsDto GetTicket(int id)
+        public AttachmentsDto GetTicket(int ID)
         {
-            var ticket = db.Attachments.SingleOrDefault(x => x.TicketNumber == id);
+            var ticket = db.Attachments.SingleOrDefault(x => x.TicketNumber == ID);
             if (ticket == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             return Mapper.Map<Attachment, AttachmentsDto>(ticket);

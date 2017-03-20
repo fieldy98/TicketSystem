@@ -98,7 +98,7 @@
         <div class="panel-body">
             <p>
                 <div class="btn-group">
-                    @if (Model.allschools.Any(x => x.School != null))
+                    @if (Model.TechID != null)
                     {
 
                     }
@@ -174,7 +174,7 @@
     </div>
 </div>
 <div class="hidden-sm visible-md visible-lg col-md-2">
-    @if (@Model.TechID != null)
+    @if (@Model.Scheduled == true)
     {
         <div class="panel">
             <div class="panel-heading">
@@ -186,6 +186,7 @@
                 <table id="myschools">
                     <thead>
                         <tr>
+                            <th></th>
                             <th class="col-sm-2">
                             </th>
                             <th>
@@ -222,6 +223,9 @@
                     <thead>
                         <tr>
                             <th class="col-sm-2">
+
+                            </th>
+                            <th>
 
                             </th>
                             <th>
@@ -340,13 +344,35 @@
                                 return "<a class='btn btn-default' href='/Tickets/Edit/" + data + "'>Edit</a>"
                             }
                         }
-                    ]
+                    ],
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                [20],
+                ['Show all']
+                    ],
+                    buttons: [
+
+                       'excel', 'pdf',
+                       {
+                           extend: 'print',
+                           title: '',
+                           customize: function (win) {
+                               $(win.document.body)
+                               .css('font-size', '8pt')
+                               $(win.document.body).find('table')
+                               .addClass('compact')
+                               .css('font-size', 'inherit')
+                           }
+                       }
+                    ],
+                    "bPaginate": false
                 });
+                $("#myTable_filter").addClass("pull-right");
                 var table2 = $("#myschools").DataTable({
                     ajax: {
                         url: "/api/TechOpenTickets/" + $('#techtable').val(),
                         data: {day: n },
-                        dataSrc: ""
+                        dataSrc: "",
                     },
                     retrieve: true,
                     bPaginate: false, //hide pagination
@@ -354,9 +380,13 @@
                     bInfo: false, // hide showing entries
                     columns: [
                         {
+                            data: "rn",
+                            bVisible: false,
+                        },
+                        {
                             data: "School",
                             render: function (data, type, ticket) {
-                                return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "&TechID=" + $('#techtable').val() + "'>" + data + "</a>"
+                                return "<a style='color:grey;' href='/Tickets/TechTickets?selectedSchool=" + data + "&TechID=" + $('#techtable').val() + "'>" + data + "</a>"
                             }
                         },
                         {
@@ -379,9 +409,15 @@
                     bInfo: false, // hide showing entries
                     columns: [
                         {
+                            data: "rn",
+                            bVisible: false,
+                        },
+                        {
                             data: "School",
                             render: function (data, type, ticket) {
-                                return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
+
+                                    return "<a style='color:grey;' href='/Tickets/SchoolTickets?selectedSchool=" + data + "'>" + data + "</a>"
+
                             }
                         },
                         {

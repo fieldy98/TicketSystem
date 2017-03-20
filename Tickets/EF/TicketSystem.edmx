@@ -106,6 +106,8 @@ warning 6002: The table/view 'TicketSystem.dbo.Main' does not have a primary key
           <Property Name="Thursday" Type="bit" />
           <Property Name="Friday" Type="bit" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.StaffToSite' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="StaffToSite">
           <Key>
             <PropertyRef Name="ID" />
@@ -158,6 +160,17 @@ warning 6002: The table/view 'TicketSystem.dbo.Main' does not have a primary key
           <Property Name="Nutrition" Type="bit" />
           <Property Name="IsArticle" Type="bit" />
           <Property Name="OldTicketNumber" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.AssignedTicketsCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AssignedTicketsCount">
+          <Key>
+            <PropertyRef Name="rn" />
+          </Key>
+          <Property Name="rn" Type="bigint" Nullable="false" />
+          <Property Name="School" Type="varchar" MaxLength="16" />
+          <Property Name="ID" Type="int" />
+          <Property Name="OpenTickets" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TicketSystem.dbo.EquipmentCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -276,6 +289,21 @@ warning 6002: The table/view 'TicketSystem.dbo.SchoolNames' does not have a prim
           <Property Name="Site" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'TicketSystem.dbo.SitesToDay' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SitesToDay">
+          <Key>
+            <PropertyRef Name="rn" />
+          </Key>
+          <Property Name="rn" Type="bigint" Nullable="false" />
+          <Property Name="School" Type="varchar" MaxLength="255" />
+          <Property Name="TechID" Type="int" />
+          <Property Name="Day1" Type="varchar" MaxLength="9" />
+          <Property Name="Day2" Type="varchar" MaxLength="9" />
+          <Property Name="Day3" Type="varchar" MaxLength="9" />
+          <Property Name="Day4" Type="varchar" MaxLength="8" />
+          <Property Name="Day5" Type="varchar" MaxLength="6" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'TicketSystem.dbo.TechClosed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TechClosed">
           <Key>
@@ -334,7 +362,6 @@ warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a 
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MailList" EntityType="Self.MailList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="StaffToSite" EntityType="Self.StaffToSite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeacherToRoom" EntityType="Self.TeacherToRoom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TechLogins" EntityType="Self.TechLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
@@ -382,6 +409,25 @@ warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a 
     [Main].[TimeSpent] AS [TimeSpent], 
     [Main].[Status] AS [Status]
     FROM [dbo].[Main] AS [Main]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StaffToSite" EntityType="Self.StaffToSite" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StaffToSite].[ID] AS [ID], 
+    [StaffToSite].[BadgeNumber] AS [BadgeNumber], 
+    [StaffToSite].[FirstName] AS [FirstName], 
+    [StaffToSite].[LastName] AS [LastName], 
+    [StaffToSite].[Site] AS [Site], 
+    [StaffToSite].[JobTitle] AS [JobTitle], 
+    [StaffToSite].[Email] AS [Email]
+    FROM [dbo].[StaffToSite] AS [StaffToSite]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AssignedTicketsCount" EntityType="Self.AssignedTicketsCount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AssignedTicketsCount].[rn] AS [rn], 
+    [AssignedTicketsCount].[School] AS [School], 
+    [AssignedTicketsCount].[ID] AS [ID], 
+    [AssignedTicketsCount].[OpenTickets] AS [OpenTickets]
+    FROM [dbo].[AssignedTicketsCount] AS [AssignedTicketsCount]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="EquipmentCount" EntityType="Self.EquipmentCount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -468,6 +514,18 @@ warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a 
     [SchoolNames].[ID] AS [ID], 
     [SchoolNames].[Site] AS [Site]
     FROM [dbo].[SchoolNames] AS [SchoolNames]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SitesToDay" EntityType="Self.SitesToDay" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SitesToDay].[rn] AS [rn], 
+    [SitesToDay].[School] AS [School], 
+    [SitesToDay].[TechID] AS [TechID], 
+    [SitesToDay].[Day1] AS [Day1], 
+    [SitesToDay].[Day2] AS [Day2], 
+    [SitesToDay].[Day3] AS [Day3], 
+    [SitesToDay].[Day4] AS [Day4], 
+    [SitesToDay].[Day5] AS [Day5]
+    FROM [dbo].[SitesToDay] AS [SitesToDay]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="TechClosed" EntityType="Self.TechClosed" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -777,6 +835,8 @@ warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a 
           <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
           <EntitySet Name="TicketsForTodays" EntityType="TicketSystemModel.TicketsForToday" />
           <EntitySet Name="TechOpenTicketsCounts" EntityType="TicketSystemModel.TechOpenTicketsCount" />
+          <EntitySet Name="SitesToDays" EntityType="TicketSystemModel.SitesToDay" />
+          <EntitySet Name="AssignedTicketsCounts" EntityType="TicketSystemModel.AssignedTicketsCount" />
         </EntityContainer>
         <EntityType Name="LastYearTicket">
           <Key>
@@ -831,6 +891,28 @@ warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a 
           <Property Name="rn" Type="Int64" Nullable="false" />
           <Property Name="School" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TechID" Type="Int32" />
+          <Property Name="OpenTickets" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SitesToDay">
+          <Key>
+            <PropertyRef Name="rn" />
+          </Key>
+          <Property Name="rn" Type="Int64" Nullable="false" />
+          <Property Name="School" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TechID" Type="Int32" />
+          <Property Name="Day1" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day2" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day3" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day4" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Day5" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AssignedTicketsCount">
+          <Key>
+            <PropertyRef Name="rn" />
+          </Key>
+          <Property Name="rn" Type="Int64" Nullable="false" />
+          <Property Name="School" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" />
           <Property Name="OpenTickets" Type="Int32" />
         </EntityType>
       </Schema>
@@ -1150,6 +1232,30 @@ warning 6002: The table/view 'TicketSystem.dbo.TicketsForToday' does not have a 
               <MappingFragment StoreEntitySet="TechOpenTicketsCount">
                 <ScalarProperty Name="OpenTickets" ColumnName="OpenTickets" />
                 <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="School" ColumnName="School" />
+                <ScalarProperty Name="rn" ColumnName="rn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SitesToDays">
+            <EntityTypeMapping TypeName="TicketSystemModel.SitesToDay">
+              <MappingFragment StoreEntitySet="SitesToDay">
+                <ScalarProperty Name="Day5" ColumnName="Day5" />
+                <ScalarProperty Name="Day4" ColumnName="Day4" />
+                <ScalarProperty Name="Day3" ColumnName="Day3" />
+                <ScalarProperty Name="Day2" ColumnName="Day2" />
+                <ScalarProperty Name="Day1" ColumnName="Day1" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="School" ColumnName="School" />
+                <ScalarProperty Name="rn" ColumnName="rn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssignedTicketsCounts">
+            <EntityTypeMapping TypeName="TicketSystemModel.AssignedTicketsCount">
+              <MappingFragment StoreEntitySet="AssignedTicketsCount">
+                <ScalarProperty Name="OpenTickets" ColumnName="OpenTickets" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="School" ColumnName="School" />
                 <ScalarProperty Name="rn" ColumnName="rn" />
               </MappingFragment>

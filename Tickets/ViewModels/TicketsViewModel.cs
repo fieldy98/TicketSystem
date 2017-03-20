@@ -17,6 +17,7 @@ namespace Tickets.ViewModels
         public string Equipment { get; set; }
         public string Issue { get; set; }
         public string TechName { get; set; }
+        public bool Scheduled { get; set; }
         public DateTime? CreateTime { get; set; }
         public DateTime? CloseTime { get; set; }
         public string NewComments { get; set; }
@@ -159,8 +160,7 @@ namespace Tickets.ViewModels
     public class SchoolAssigments
     {
         public string School { get; set; }
-        public string Day1 { get; set; }
-        public string Day2 { get; set; }
+        public string Days { get; set; }
         public string TechName { get; set; }
         public string Poc1 { get; set; }
         public string Poc2 { get; set; }

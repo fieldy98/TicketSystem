@@ -18,11 +18,14 @@ namespace Tickets.Controllers.Api
         TicketsEntities db = new TicketsEntities();
         public IEnumerable<TechOpenTicketsDto> GetTicketsCount()
         {
-            return db.TechOpenTicketsCounts.ToList().Select(Mapper.Map<TechOpenTicketsCount, TechOpenTicketsDto>);
+            var NotAssignedTickets = db.TechOpenTicketsCounts.Where(x => x.School == "Assigned Tickets");
+            return db.TechOpenTicketsCounts.Except(NotAssignedTickets).OrderBy(x => x.rn).ToList().Select(Mapper.Map<TechOpenTicketsCount, TechOpenTicketsDto>);
         }
         public IEnumerable<TechOpenTicketsDto> GetTechTicketsCount(int id)
         {
-            return db.TechOpenTicketsCounts.Where(x=>x.TechID == id).ToList().Select(Mapper.Map<TechOpenTicketsCount, TechOpenTicketsDto>);
+            var NotAllSites = db.TechOpenTicketsCounts.Where(x => x.School == "All Tickets");
+            return db.TechOpenTicketsCounts.Where(x => x.TechID == id).Except(NotAllSites).OrderBy(x=>x.rn).ToList().Select(Mapper.Map<TechOpenTicketsCount, TechOpenTicketsDto>);
         }
+
     }
 }

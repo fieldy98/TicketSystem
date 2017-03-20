@@ -317,5 +317,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SitesToDays">
+      <EntityTypeMapping TypeName="TicketSystemModel.SitesToDay">
+        <MappingFragment StoreEntitySet="SitesToDay">
+          <ScalarProperty Name="Day5" ColumnName="Day5" />
+          <ScalarProperty Name="Day4" ColumnName="Day4" />
+          <ScalarProperty Name="Day3" ColumnName="Day3" />
+          <ScalarProperty Name="Day2" ColumnName="Day2" />
+          <ScalarProperty Name="Day1" ColumnName="Day1" />
+          <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AssignedTicketsCounts">
+      <EntityTypeMapping TypeName="TicketSystemModel.AssignedTicketsCount">
+        <MappingFragment StoreEntitySet="AssignedTicketsCount">
+          <ScalarProperty Name="OpenTickets" ColumnName="OpenTickets" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

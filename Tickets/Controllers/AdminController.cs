@@ -27,65 +27,20 @@ namespace Tickets.Controllers
         {
             TicketsCreateViewModel tcvm = new TicketsCreateViewModel();
 
-            var schools = db.Schedules.OrderBy(x => x.School).ToList();
+            var schools = db.SitesToDays.OrderBy(x => x.School).ToList();
 
             foreach (var item in schools)
             {
                 SchoolAssigments s = new SchoolAssigments();
-                if (item.Monday == true && item.Tuesday == true)
-                {
-                    s.Day1 = "Monday";
-                    s.Day2 = "Tuesday";
-                }
-                else if (item.Monday == true && item.Wednesday == true)
-                {
-                    s.Day1 = "Monday";
-                    s.Day2 = "Wednesday";
-                }
-                else if (item.Monday == true && item.Thursday == true)
-                {
-                    s.Day1 = "Monday";
-                    s.Day2 = "Thursday";
-                }
-                else if (item.Monday == true && item.Friday == true)
-                {
-                    s.Day1 = "Monday";
-                    s.Day2 = "Friday";
-                }
-                else if (item.Tuesday == true && item.Wednesday == true)
-                {
-                    s.Day1 = "Tuesday";
-                    s.Day2 = "Wednesday";
-                }
-                else if (item.Tuesday == true && item.Thursday == true)
-                {
-                    s.Day1 = "Tuesday";
-                    s.Day2 = "Thursday";
-                }
-                else if (item.Tuesday == true && item.Friday == true)
-                {
-                    s.Day1 = "Tuesday";
-                    s.Day2 = "Friday";
-                }
-                else if (item.Wednesday == true && item.Thursday == true)
-                {
-                    s.Day1 = "Wednesday";
-                    s.Day2 = "Thursday";
-                }
-                else if (item.Wednesday == true && item.Friday == true)
-                {
-                    s.Day1 = "Wednesday";
-                    s.Day2 = "Friday";
-                }
-                else if (item.Thursday == true && item.Friday == true)
-                {
-                    s.Day1 = "Thursday";
-                    s.Day2 = "Friday";
-                }
 
                 s.School = item.School;
                 var techname = db.TechLogins.First(x => x.ID == item.TechID);
                 s.TechName = techname.LastName + ", " + techname.FirstName;
+                s.Days = item.Day1 + ", " + item.Day2;
+                if (item.Day3 != null && item.Day3 != null && item.Day3 != null)
+                {
+                    s.Days = s.Days + ", " + item.Day3 + ", " + item.Day4 + ", " + item.Day5;
+                }
 
                 tcvm.schoolassignments.Add(s);
             }

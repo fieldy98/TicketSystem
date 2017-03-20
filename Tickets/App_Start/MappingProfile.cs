@@ -32,6 +32,7 @@ namespace Tickets.App_Start
             Mapper.CreateMap<TechOpenTicketsDto, TechOpenTicketsCount>();
             Mapper.CreateMap<TicketsForToday, TodaysOpenTicketsDto>();
             Mapper.CreateMap<TodaysOpenTicketsDto, TicketsForToday>();
+            Mapper.CreateMap<AssignedTicketsCount, TechAssingedTickets>();
         }
     }
 }

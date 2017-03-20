@@ -43,10 +43,12 @@ namespace Tickets.Controllers
                     
             }
 
+            if (db.Schedules.Any(x => x.TechID == tcvm.TechID))
+                tcvm.Scheduled = true;
 
-            tcvm.allschools = tcvm.allschools.ToList();
-            tcvm.myschools = tcvm.myschools.ToList();
-            tcvm.indexview = tcvm.indexview.ToList();
+            else
+                tcvm.Scheduled = false;
+
             return View(tcvm);
         }
 
@@ -111,11 +113,41 @@ namespace Tickets.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Site,User,Location,Equipment,Issue,Nutrition")] Create ticket)
         {
-
             if (ModelState.IsValid)
             {
                 Ticket t = new Ticket();
+                var user = db.StaffToSites.FirstOrDefault(x => x.BadgeNumber == ticket.User);
+                t.Site = ticket.Site;
+                t.TroubleUser = user.LastName + ", " + user.FirstName;
+                t.Location = ticket.Location;
+                if (ticket.Nutrition == true)
+                {
+                    t.Nutrition = true;
+                }
+                else if (ticket.Issue.Contains("Nutrition"))
+                {
+                    t.Nutrition = true;
+                }
+                else
+                {
+                    t.Nutrition = false;
+                }
+                t.Equipment = ticket.Equipment;
+                t.Issue = ticket.Issue;
+                t.UserEmail = user.Email;
+                t.CreateTime = DateTime.Now;
+                if (db.Schedules.Any(x => x.School == user.Site))
+                {
+                    t.TechID = db.Schedules.SingleOrDefault(x => x.School == user.Site).TechID;
+                }
+                if (ticket.Nutrition == true || ticket.Issue.Contains("Nutrition"))
+                {
+                    t.TechID = db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID;
+                }
 
+                t.IsArticle = false;
+                db.Tickets.Add(t);
+                db.SaveChanges();
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     var myFile = Request.Files[i];
@@ -132,7 +164,6 @@ namespace Tickets.Controllers
                         db.Attachments.Add(a);
                         db.SaveChanges();
                     }
-
                 }
                 try
                 {
@@ -145,11 +176,9 @@ namespace Tickets.Controllers
                     {
                         mailMessage.To.Add(newticket.UserEmail);
                     }
-
                     if (db.MailLists.Any(x => x.School == newticket.Site))
                     {
                         var school = db.MailLists.SingleOrDefault(x => x.School == newticket.Site);
-
                         mailMessage.CC.Add(school.Principal);
                         mailMessage.CC.Add(school.Librarian);
                         mailMessage.CC.Add(school.Clerk);
@@ -158,29 +187,76 @@ namespace Tickets.Controllers
                     {
                         mailMessage.To.Add("dwhite@pbvusd.net");
                     }
-
                     mailMessage.Subject = "Ticket Creation - " + newticket.Location + " for their " + newticket.Equipment;
                     mailMessage.Body = "A ticket was created for " + newticket.TroubleUser + "\nThe issue is listed as:\n" + newticket.Issue;
                     mailMessage.IsBodyHtml = true;
-
                     client.Send(mailMessage);
                 }
                 catch (Exception)
                 {
-
-
                 }
-
+                try
+                {
+                    SmtpClient client = new SmtpClient("exchange.pbvusd.net");
+                    //If you need to authenticate
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.From = new MailAddress("noreply@pbvusd.net");
+                    if (user.Email != null)
+                    {
+                        mailMessage.To.Add(user.Email);
+                    }
+                    if (db.MailLists.Any(x => x.School == t.Site))
+                    {
+                        var school = db.MailLists.SingleOrDefault(x => x.School == t.Site);
+                        mailMessage.CC.Add(school.Principal);
+                        mailMessage.CC.Add(school.Librarian);
+                        mailMessage.CC.Add(school.Clerk);
+                    }
+                    else
+                    {
+                        mailMessage.To.Add("jerk@pbvusd.net");
+                    }
+                    mailMessage.Subject = "Ticket Creation - " + ticket.Location + " for their " + ticket.Equipment;
+                    mailMessage.Body = "A ticket was created for " + user.FirstName + " " + user.LastName + "\nThe issue is listed as:\n" + ticket.Issue;
+                    mailMessage.IsBodyHtml = true;
+                    client.Send(mailMessage);
+                }
+                catch (Exception)
+                {
+                }
                 return RedirectToAction("Index");
             }
 
-            
-
             return View(ticket);
         }
+        public ActionResult TechTickets(string selectedSchool, int? TechID)
+        {
+            TicketsCreateViewModel tcvm = new TicketsCreateViewModel();
+            var test = db.ScheduledSchoolsTickets.ToList();
 
-        // GET: Tickets/Edit/5
-        public ActionResult Edit(int? id)
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                var name = ticket.Name;
+                var tech = db.TechLogins.SingleOrDefault(x => x.Username == name);
+                tcvm.TechID = tech.ID;
+            }
+
+            if (db.Schedules.Any(x => x.TechID == tcvm.TechID))
+                tcvm.Scheduled = true;
+
+            else
+                tcvm.Scheduled = false;
+
+            tcvm.allschools = tcvm.allschools.ToList();
+            tcvm.myschools = tcvm.myschools.ToList();
+            tcvm.Site = selectedSchool;
+            tcvm.indexview = tcvm.indexview.ToList();
+            return View(tcvm);
+        }
+            // GET: Tickets/Edit/5
+            public ActionResult Edit(int? id)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket TechName = FormsAuthentication.Decrypt(authCookie.Value);
@@ -672,112 +748,7 @@ namespace Tickets.Controllers
             return View(equip);
         }
         
-        public ActionResult ShowTickets()
-        {
-            TicketsCreateViewModel tcvm = new TicketsCreateViewModel();
-            var test = db.ScheduledSchoolsTickets.ToList();
 
-            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
-            {
-                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                var name = ticket.Name;
-                var tech = db.TechLogins.SingleOrDefault(x => x.Username == name);
-
-
-
-                    test = test.Where(x => x.TechID == tech.ID).ToList();
-                    foreach (var item in test)
-                    {
-                        IndexView iv = new IndexView();
-
-                        iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                        iv.Equipment = item.Equipment;
-                        iv.Issue = item.Issue;
-                        iv.Location = item.Location;
-                    if (item.Nutrition == true)
-                    {
-                        iv.Nutrition = true;
-                    }
-                    else
-                    {
-                        iv.Nutrition = false;
-                    }
-                        iv.Site = item.Site;
-                        iv.TicketNumber = item.TicketNumber;
-                        iv.User = item.TroubleUser;
-
-
-                        tcvm.indexview.Add(iv);
-                    }
-                
-
-                var myschools = db.Schedules.Where(x => x.TechID == tech.ID).OrderBy(x => x.School);
-                foreach (var item in myschools)
-                {
-                    if(myschools.Any(x=>x.School == "Nutrition"))
-                    {
-                        MySchools ms = new MySchools();
-                        var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true).Count();
-
-                        ms.School = item.School;
-                        ms.TicketCount = ticketcount;
-
-                        tcvm.myschools.Add(ms);
-                    }
-                    else
-                    {
-                        MySchools ms = new MySchools();
-                        var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Site == item.School).Count();
-
-                        ms.School = item.School;
-                        ms.TicketCount = ticketcount;
-
-                        tcvm.myschools.Add(ms);
-                    }
-                    
-                }
-
-                foreach (var item in db.Schedules.Except(myschools).OrderBy(x => x.School))
-                {
-                    if (item.School == "Nutrition")
-                    {
-                        AllSchools all = new AllSchools();
-                        var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true).Count();
-
-                        all.School = item.School;
-                        all.TicketCount = ticketcount;
-                        tcvm.allschools.Add(all);
-                    }
-                    else
-                    {
-                        AllSchools all = new AllSchools();
-                        var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Site == item.School).Count();
-
-                        all.School = item.School;
-                        all.TicketCount = ticketcount;
-                        tcvm.allschools.Add(all);
-                    }
-                    
-                }
-                for (var i = 0; i < 1; i++)
-                {
-                    AllSchools all = new AllSchools();
-                    var ticketcount = db.ScheduledSchoolsTickets.Count();
-
-                    all.School = "All Tickets";
-                    all.TicketCount = ticketcount;
-                    tcvm.allschools.Add(all);
-                }
-
-            }
-
-
-            tcvm.allschools = tcvm.allschools.ToList();
-            tcvm.myschools = tcvm.myschools.ToList();
-            tcvm.indexview = tcvm.indexview.ToList();
-            return View(tcvm);
-        }
         public ActionResult SchoolTickets(string selectedSchool, int? TechID)
         {
             TicketsCreateViewModel tcvm = new TicketsCreateViewModel();
@@ -790,601 +761,13 @@ namespace Tickets.Controllers
                 var name = ticket.Name;
                 var tech = db.TechLogins.SingleOrDefault(x => x.Username == name);
                 tcvm.TechID = tech.ID;
-
-                if (selectedSchool == "All Tickets")
-                {
-                    foreach (var item in test)
-                    {
-                        IndexView iv = new IndexView();
-
-                        iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                        iv.Equipment = item.Equipment;
-                        iv.Issue = item.Issue;
-                        iv.Location = item.Location;
-                        if (item.Nutrition == true)
-                        {
-                            iv.Nutrition = true;
-                        }
-                        else
-                        {
-                            iv.Nutrition = false;
-                        }
-                        iv.Site = item.Site;
-                        iv.TicketNumber = item.TicketNumber;
-                        iv.User = item.TroubleUser;
-
-
-                        tcvm.indexview.Add(iv);
-                    }
-                }
-                else if (selectedSchool == "Nutrition")
-                {
-                    test = test.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).ToList();
-                    foreach (var item in test)
-                    {
-                        IndexView iv = new IndexView();
-
-                        iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                        iv.Equipment = item.Equipment;
-                        iv.Issue = item.Issue;
-                        iv.Location = item.Location;
-                        if (item.Nutrition == true)
-                        {
-                            iv.Nutrition = true;
-                        }
-                        else
-                        {
-                            iv.Nutrition = false;
-                        }
-                        iv.Site = item.Site;
-                        iv.TicketNumber = item.TicketNumber;
-                        iv.User = item.TroubleUser;
-
-
-                        tcvm.indexview.Add(iv);
-                    }
-                }
-                else if (selectedSchool == "Today")
-                {
-                    if (DateTime.Now.ToString("dddd") == "Monday")
-                    {
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).ToList();
-                            foreach (var item in Nutrition)
-                            {
-                                IndexView iv = new IndexView();
-
-                                iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                                iv.Equipment = item.Equipment;
-                                iv.Issue = item.Issue;
-                                iv.Location = item.Location;
-                                if (item.Nutrition == true)
-                                {
-                                    iv.Nutrition = true;
-                                }
-                                else
-                                {
-                                    iv.Nutrition = false;
-                                }
-                                iv.Site = item.Site;
-                                iv.TicketNumber = item.TicketNumber;
-                                iv.User = item.TroubleUser;
-
-
-                                tcvm.indexview.Add(iv);
-                            }
-                        }
-                        test = test.Where(x => x.TechID == tech.ID && x.Monday == true).ToList();
-                        foreach (var item in test)
-                        {
-                            IndexView iv = new IndexView();
-
-                            iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                            iv.Equipment = item.Equipment;
-                            iv.Issue = item.Issue;
-                            iv.Location = item.Location;
-                            if (item.Nutrition == true)
-                            {
-                                iv.Nutrition = true;
-                            }
-                            else
-                            {
-                                iv.Nutrition = false;
-                            }
-                            iv.Site = item.Site;
-                            iv.TicketNumber = item.TicketNumber;
-                            iv.User = item.TroubleUser;
-
-
-                            tcvm.indexview.Add(iv);
-                        }
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Tuesday")
-                    {
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).ToList();
-                            foreach (var item in Nutrition)
-                            {
-                                IndexView iv = new IndexView();
-
-                                iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                                iv.Equipment = item.Equipment;
-                                iv.Issue = item.Issue;
-                                iv.Location = item.Location;
-                                if (item.Nutrition == true)
-                                {
-                                    iv.Nutrition = true;
-                                }
-                                else
-                                {
-                                    iv.Nutrition = false;
-                                }
-                                iv.Site = item.Site;
-                                iv.TicketNumber = item.TicketNumber;
-                                iv.User = item.TroubleUser;
-
-
-                                tcvm.indexview.Add(iv);
-                            }
-                        }
-                        test = test.Where(x => x.TechID == tech.ID && x.Tuesday == true).ToList();
-                        foreach (var item in test)
-                        {
-                            IndexView iv = new IndexView();
-
-                            iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                            iv.Equipment = item.Equipment;
-                            iv.Issue = item.Issue;
-                            iv.Location = item.Location;
-                            if (item.Nutrition == true)
-                            {
-                                iv.Nutrition = true;
-                            }
-                            else
-                            {
-                                iv.Nutrition = false;
-                            }
-                            iv.Site = item.Site;
-                            iv.TicketNumber = item.TicketNumber;
-                            iv.User = item.TroubleUser;
-
-
-                            tcvm.indexview.Add(iv);
-                        }
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Wednesday")
-                    {
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).ToList();
-                            foreach (var item in Nutrition)
-                            {
-                                IndexView iv = new IndexView();
-
-                                iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                                iv.Equipment = item.Equipment;
-                                iv.Issue = item.Issue;
-                                iv.Location = item.Location;
-                                if (item.Nutrition == true)
-                                {
-                                    iv.Nutrition = true;
-                                }
-                                else
-                                {
-                                    iv.Nutrition = false;
-                                }
-                                iv.Site = item.Site;
-                                iv.TicketNumber = item.TicketNumber;
-                                iv.User = item.TroubleUser;
-
-
-                                tcvm.indexview.Add(iv);
-                            }
-                        }
-                        test = test.Where(x => x.TechID == tech.ID && x.Wednesday == true).ToList();
-                        foreach (var item in test)
-                        {
-                            IndexView iv = new IndexView();
-
-                            iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                            iv.Equipment = item.Equipment;
-                            iv.Issue = item.Issue;
-                            iv.Location = item.Location;
-                            if (item.Nutrition == true)
-                            {
-                                iv.Nutrition = true;
-                            }
-                            else
-                            {
-                                iv.Nutrition = false;
-                            }
-                            iv.Site = item.Site;
-                            iv.TicketNumber = item.TicketNumber;
-                            iv.User = item.TroubleUser;
-
-
-                            tcvm.indexview.Add(iv);
-                        }
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Thursday")
-                    {
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).ToList();
-                            foreach (var item in Nutrition)
-                            {
-                                IndexView iv = new IndexView();
-
-                                iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                                iv.Equipment = item.Equipment;
-                                iv.Issue = item.Issue;
-                                iv.Location = item.Location;
-                                if (item.Nutrition == true)
-                                {
-                                    iv.Nutrition = true;
-                                }
-                                else
-                                {
-                                    iv.Nutrition = false;
-                                }
-                                iv.Site = item.Site;
-                                iv.TicketNumber = item.TicketNumber;
-                                iv.User = item.TroubleUser;
-
-
-                                tcvm.indexview.Add(iv);
-                            }
-                        }
-                        test = test.Where(x => x.TechID == tech.ID && x.Thursday == true).ToList();
-                        foreach (var item in test)
-                        {
-                            IndexView iv = new IndexView();
-
-                            iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                            iv.Equipment = item.Equipment;
-                            iv.Issue = item.Issue;
-                            iv.Location = item.Location;
-                            if (item.Nutrition == true)
-                            {
-                                iv.Nutrition = true;
-                            }
-                            else
-                            {
-                                iv.Nutrition = false;
-                            }
-                            iv.Site = item.Site;
-                            iv.TicketNumber = item.TicketNumber;
-                            iv.User = item.TroubleUser;
-
-
-                            tcvm.indexview.Add(iv);
-                        }
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Friday")
-                    {
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).ToList();
-                            foreach (var item in Nutrition)
-                            {
-                                IndexView iv = new IndexView();
-
-                                iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                                iv.Equipment = item.Equipment;
-                                iv.Issue = item.Issue;
-                                iv.Location = item.Location;
-                                if (item.Nutrition == true)
-                                {
-                                    iv.Nutrition = true;
-                                }
-                                else
-                                {
-                                    iv.Nutrition = false;
-                                }
-                                iv.Site = item.Site;
-                                iv.TicketNumber = item.TicketNumber;
-                                iv.User = item.TroubleUser;
-
-
-                                tcvm.indexview.Add(iv);
-                            }
-                        }
-                        test = test.Where(x => x.TechID == tech.ID && x.Friday == true).ToList();
-                        foreach (var item in test)
-                        {
-                            IndexView iv = new IndexView();
-
-                            iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                            iv.Equipment = item.Equipment;
-                            iv.Issue = item.Issue;
-                            iv.Location = item.Location;
-                            if (item.Nutrition == true)
-                            {
-                                iv.Nutrition = true;
-                            }
-                            else
-                            {
-                                iv.Nutrition = false;
-                            }
-                            iv.Site = item.Site;
-                            iv.TicketNumber = item.TicketNumber;
-                            iv.User = item.TroubleUser;
-
-
-                            tcvm.indexview.Add(iv);
-                        }
-                    }
-                }
-                else if (selectedSchool == "Assigned")
-                {
-                    test = test.Where(x => x.TechID == tech.ID).ToList();
-                    foreach (var item in test)
-                    {
-                        IndexView iv = new IndexView();
-
-                        iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                        iv.Equipment = item.Equipment;
-                        iv.Issue = item.Issue;
-                        iv.Location = item.Location;
-                        if (item.Nutrition == true)
-                        {
-                            iv.Nutrition = true;
-                        }
-                        else
-                        {
-                            iv.Nutrition = false;
-                        }
-                        iv.Site = item.Site;
-                        iv.TicketNumber = item.TicketNumber;
-                        iv.User = item.TroubleUser;
-
-
-                        tcvm.indexview.Add(iv);
-                    }
-                }
-                else
-                {
-                    test = test.Where(x => x.Site == selectedSchool).ToList();
-                    if(TechID != null)
-                    {
-                        test = test.Where(x => x.TechID == TechID).ToList();
-                    }
-                    foreach (var item in test)
-                    {
-                        IndexView iv = new IndexView();
-
-                        iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                        iv.Equipment = item.Equipment;
-                        iv.Issue = item.Issue;
-                        iv.Location = item.Location;
-                        if (item.Nutrition == true)
-                        {
-                            iv.Nutrition = true;
-                        }
-                        else
-                        {
-                            iv.Nutrition = false;
-                        }
-                        iv.Site = item.Site;
-                        iv.TicketNumber = item.TicketNumber;
-                        iv.User = item.TroubleUser;
-
-
-                        tcvm.indexview.Add(iv);
-                    }
-                }
-
-                //else
-                //{
-                //    char[] delimiterChars = { ' ' };
-                //    string[] twowords = selectedSchool.Split(delimiterChars);
-                //    var s = twowords[0].ToString();
-                //    s = s.Substring(0, 1) + s.Substring(1).ToLower();
-                //    var t = s;
-                //    if(twowords[1] != null)
-                //    {
-                //        var q = twowords[1].ToString();
-                //        q = q.Substring(0, 1) + s.Substring(1).ToLower();
-                //        t = s + " " + q;
-                //        test = test.Where(x => x.Site == selectedSchool || x.Site == s || x.Site == t).ToList();
-                //    }
-                //    else
-                //    {
-                //        test = test.Where(x => x.Site == selectedSchool || x.Site == s).ToList();
-                //    }
-
-
-
-                //    foreach (var item in test)
-                //    {
-                //        IndexView iv = new IndexView();
-
-                //        iv.CreateTime = item.CreateTime.Value.ToShortDateString();
-                //        iv.Equipment = item.Equipment;
-                //        iv.Issue = item.Issue;
-                //        iv.Location = item.Location;
-                //        iv.Nutrition = item.Nutrition;
-                //        iv.Site = item.Site;
-                //        iv.TicketNumber = item.TicketNumber;
-                //        iv.User = item.TroubleUser;
-
-
-                //        tcvm.indexview.Add(iv);
-                //    }
-                //}
-
-
-                if (db.Schedules.Any(x => x.TechID == tech.ID))
-                {
-                    if (DateTime.Now.ToString("dddd") == "Monday")
-                    {
-
-                        test = test.Where(x => x.TechID == tech.ID && x.Monday == true).ToList();
-
-                        MySchools ms = new MySchools();
-                        ms.School = "Today";
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-                            ms.TicketCount = test.Count() + Nutrition;
-                        }
-                        else
-                        {
-                            ms.TicketCount = test.Count();
-                        }
-                        tcvm.myschools.Add(ms);
-                        tcvm.myschools = tcvm.myschools.ToList();
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Tuesday")
-                    {
-                        test = test.Where(x => x.TechID == tech.ID && x.Tuesday == true).ToList();
-
-                        MySchools ms = new MySchools();
-                        ms.School = "Today";
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-                            ms.TicketCount = test.Count() + Nutrition;
-                        }
-                        else
-                        {
-                            ms.TicketCount = test.Count();
-                        }
-                        tcvm.myschools.Add(ms);
-                        tcvm.myschools = tcvm.myschools.ToList();
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Wednesday")
-                    {
-                        test = test.Where(x => x.TechID == tech.ID && x.Wednesday == true).ToList();
-
-                        MySchools ms = new MySchools();
-                        ms.School = "Today";
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-                            ms.TicketCount = test.Count() + Nutrition;
-                        }
-                        else
-                        {
-                            ms.TicketCount = test.Count();
-                        }
-                        tcvm.myschools.Add(ms);
-                        tcvm.myschools = tcvm.myschools.ToList();
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Thursday")
-                    {
-                        test = test.Where(x => x.TechID == tech.ID && x.Thursday == true).ToList();
-
-                        MySchools ms = new MySchools();
-                        ms.School = "Today";
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-                            ms.TicketCount = test.Count() + Nutrition;
-                        }
-                        else
-                        {
-                            ms.TicketCount = test.Count();
-                        }
-                        tcvm.myschools.Add(ms);
-                        tcvm.myschools = tcvm.myschools.ToList();
-                    }
-                    else if (DateTime.Now.ToString("dddd") == "Friday")
-                    {
-                        test = test.Where(x => x.TechID == tech.ID && x.Friday == true).ToList();
-
-                        MySchools ms = new MySchools();
-                        ms.School = "Today";
-                        if (db.Schedules.SingleOrDefault(x => x.School == "Nutrition").TechID == tech.ID)
-                        {
-                            var Nutrition = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-                            ms.TicketCount = test.Count() + Nutrition;
-                        }
-                        else
-                        {
-                            ms.TicketCount = test.Count();
-                        }
-                        tcvm.myschools.Add(ms);
-                        tcvm.myschools = tcvm.myschools.ToList();
-                    }
-
-                    var myschools = db.Schedules.Where(x => x.TechID == tech.ID).OrderBy(x => x.School);
-
-
-                    foreach (var item in myschools)
-                    {
-                        if (item.School == "Nutrition")
-                        {
-                            MySchools ms = new MySchools();
-                            var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-
-                            ms.School = item.School;
-                            ms.TicketCount = ticketcount;
-
-                            tcvm.myschools.Add(ms);
-                        }
-                        else
-                        {
-                            MySchools ms = new MySchools();
-                            var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Site == item.School).Count();
-
-                            ms.School = item.School;
-                            ms.TicketCount = ticketcount;
-
-                            tcvm.myschools.Add(ms);
-                        }
-
-                    }
-                    if (db.Schedules.Any(x => x.TechID == tech.ID))
-                    {
-                        for (var i = 0; i < 1; i++)
-                        {
-                            MySchools all = new MySchools();
-                            var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.TechID == tech.ID).Count();
-
-                            all.School = "Assigned";
-                            all.TicketCount = ticketcount;
-                            tcvm.myschools.Add(all);
-                        }
-                    }
-                }
-
-                    foreach (var item in db.Schedules.OrderBy(x => x.School))
-                    {
-                        if (item.School == "Nutrition")
-                        {
-                            AllSchools all = new AllSchools();
-                            var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Nutrition == true || x.Issue.Contains("Nutrition")).Count();
-
-                            all.School = item.School;
-                            all.TicketCount = ticketcount;
-                            tcvm.allschools.Add(all);
-                        }
-                        else
-                        {
-                            AllSchools all = new AllSchools();
-                            var ticketcount = db.ScheduledSchoolsTickets.Where(x => x.Site == item.School).Count();
-
-                            all.School = item.School;
-                            all.TicketCount = ticketcount;
-                            tcvm.allschools.Add(all);
-                        }
-                    }
-                    for (var i = 0; i < 1; i++)
-                    {
-                        AllSchools all = new AllSchools();
-                        var ticketcount = db.ScheduledSchoolsTickets.Count();
-
-                        all.School = "All Tickets";
-                        all.TicketCount = ticketcount;
-                        tcvm.allschools.Add(all);
-                    }
-
-                
             }
 
+            if (db.Schedules.Any(x => x.TechID == tcvm.TechID))
+                tcvm.Scheduled = true;
+
+            else
+                tcvm.Scheduled = false;
 
             tcvm.allschools = tcvm.allschools.ToList();
             tcvm.myschools = tcvm.myschools.ToList();

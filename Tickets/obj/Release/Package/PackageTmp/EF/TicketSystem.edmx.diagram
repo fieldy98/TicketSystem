@@ -30,6 +30,8 @@
         <EntityTypeShape EntityType="TicketSystemModel.EquipmentCount" Width="1.5" PointX="13.375" PointY="3.75" />
         <EntityTypeShape EntityType="TicketSystemModel.TicketsForToday" Width="1.5" PointX="8.875" PointY="3.75" />
         <EntityTypeShape EntityType="TicketSystemModel.TechOpenTicketsCount" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="TicketSystemModel.SitesToDay" Width="1.5" PointX="2.75" PointY="5.875" />
+        <EntityTypeShape EntityType="TicketSystemModel.AssignedTicketsCount" Width="1.5" PointX="13.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

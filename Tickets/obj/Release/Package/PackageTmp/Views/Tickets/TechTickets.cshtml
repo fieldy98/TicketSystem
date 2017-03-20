@@ -39,40 +39,40 @@
 
                 <tbody>
                     @*@foreach (var item in Model.indexview)
-            {
-                        <tr>
-                            <td class="col-xs-1">
-                                @Html.DisplayFor(modelItem => item.TicketNumber)<br />
-                                <small>@Html.DisplayFor(modelItem => item.CreateTime)</small>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Site)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Location)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Equipment)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Issue)
-                            </td>
-                            <td valign="middle" align="center">
-                                <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Tickets", new { id = item.TicketNumber })'" />
-                            </td>
-                        </tr>
-                    }*@
+                        {
+                                    <tr>
+                                        <td class="col-xs-1">
+                                            @Html.DisplayFor(modelItem => item.TicketNumber)<br />
+                                            <small>@Html.DisplayFor(modelItem => item.CreateTime)</small>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Site)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.User)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Location)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Equipment)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Issue)
+                                        </td>
+                                        <td valign="middle" align="center">
+                                            <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Tickets", new { id = item.TicketNumber })'" />
+                                        </td>
+                                    </tr>
+                                }*@
                 </tbody>
             </table>
         </div>
 
-        </div>
     </div>
 </div>
-   
+</div>
+
 <div class="col-xs-12 col-sm-2">
     @if (@Model.Scheduled == true)
     {
@@ -95,16 +95,16 @@
                     </thead>
                     <tbody>
                         @*@foreach (var item in Model.myschools)
-                        {
-                            <tr>
-                                <td class="col-sm-2">
-                                    @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
-                                </td>
-                                <td>
-                                    <span class="badge">@item.TicketCount</span>
-                                </td>
-                            </tr>
-                        }*@
+                            {
+                                <tr>
+                                    <td class="col-sm-2">
+                                        @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                                    </td>
+                                    <td>
+                                        <span class="badge">@item.TicketCount</span>
+                                    </td>
+                                </tr>
+                            }*@
                     </tbody>
                 </table>
             </div>
@@ -133,16 +133,16 @@
                     </thead>
                     <tbody>
                         @*@foreach (var item in Model.allschools)
-                        {
-                            <tr>
-                                <td class="col-sm-2">
-                                    @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
-                                </td>
-                                <td>
-                                    <span class="badge">@item.TicketCount</span>
-                                </td>
-                            </tr>
-                        }*@
+                            {
+                                <tr>
+                                    <td class="col-sm-2">
+                                        @Html.ActionLink(@item.School, "SchoolTickets", new { selectedSchool = @item.School }, new { @style = "color:black;" })
+                                    </td>
+                                    <td>
+                                        <span class="badge">@item.TicketCount</span>
+                                    </td>
+                                </tr>
+                            }*@
                     </tbody>
                 </table>
             </div>
@@ -151,18 +151,18 @@
 </div>
 </div>
 @section Scripts {
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
-<script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
-<script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-<script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-<script src="http://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
 
-<script>
+    <script>
     $(document).ready(function () {
 
         function RefreshTables() {
@@ -182,13 +182,13 @@
                 var table1 = $("#myTable").DataTable({
                     ajax: {
                         url: "/api/TicketsForSchools",
-                        data: {school: '@Model.Site'},
+                        data: {school: '@Model.Site', ID: '@Model.TechID'},
                         dataSrc: ""
                     },
                     retrieve: true,
                     bPaginate: false, //hide pagination
                     bFilter: false, //hide Search bar
-                    bInfo: false, // hide showing entries   
+                    bInfo: false, // hide showing entries
                     columns: [
                         {
                             data: "TicketNumber",
@@ -296,7 +296,7 @@
                         }
                     ]
                 });
-            
+
 
 
                 table1.ajax.reload();
@@ -307,5 +307,5 @@
 
             RefreshTables();
         });
-</script>
+    </script>
 }

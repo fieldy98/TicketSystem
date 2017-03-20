@@ -262,6 +262,8 @@
     <EntitySet Name="EquipmentCounts" EntityType="TicketSystemModel.EquipmentCount" />
     <EntitySet Name="TicketsForTodays" EntityType="TicketSystemModel.TicketsForToday" />
     <EntitySet Name="TechOpenTicketsCounts" EntityType="TicketSystemModel.TechOpenTicketsCount" />
+    <EntitySet Name="SitesToDays" EntityType="TicketSystemModel.SitesToDay" />
+    <EntitySet Name="AssignedTicketsCounts" EntityType="TicketSystemModel.AssignedTicketsCount" />
   </EntityContainer>
   <EntityType Name="LastYearTicket">
     <Key>
@@ -316,6 +318,28 @@
     <Property Name="rn" Type="Int64" Nullable="false" />
     <Property Name="School" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="TechID" Type="Int32" />
+    <Property Name="OpenTickets" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SitesToDay">
+    <Key>
+      <PropertyRef Name="rn" />
+    </Key>
+    <Property Name="rn" Type="Int64" Nullable="false" />
+    <Property Name="School" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TechID" Type="Int32" />
+    <Property Name="Day1" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day2" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day3" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day4" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="Day5" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="AssignedTicketsCount">
+    <Key>
+      <PropertyRef Name="rn" />
+    </Key>
+    <Property Name="rn" Type="Int64" Nullable="false" />
+    <Property Name="School" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="ID" Type="Int32" />
     <Property Name="OpenTickets" Type="Int32" />
   </EntityType>
 </Schema>
